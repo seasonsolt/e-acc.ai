@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updated": "2026-07-23",
+  "updated": "2026-09-02",
   "docs": "https://e-acc.ai/api",
   "event": {
-    "date": "2026-07-16",
+    "date": "2026-09-01",
     "type": "model",
     "frontier": true,
-    "title": "Kimi K3 ships",
-    "detail": "Moonshot's 2.8-trillion-parameter open-weight model lands — the first open '3T-class' model, trailing only Fable 5 and GPT-5.6 on overall capability. China closes the frontier gap.",
-    "source_url": "https://platform.kimi.ai/docs/guide/kimi-k3-quickstart"
+    "title": "Claude Fable 5.1 ships",
+    "detail": "Anthropic's Mythos-class update lands: Terminal-Bench-Science more than doubles to 52.6%, cache reads drop 75% to $0.25 per Mtok, base price holds at $10 / $50. Mythos 5.1 stays gated to vetted US orgs under Project Glasswing.",
+    "source_url": "https://www.anthropic.com/claude/fable"
   }
 }

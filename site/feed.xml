@@ -5,8 +5,64 @@
     <link>https://e-acc.ai/timeline</link>
     <description>Frontier model releases, compute buildouts and culture moments — the AI acceleration, dated and sourced. Updated weekly by e-acc.ai.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 02 Sep 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://e-acc.ai/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[frontier] Claude Fable 5.1 ships</title>
+      <link>https://www.anthropic.com/claude/fable</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-01:claude-fable-5-1-ships</guid>
+      <pubDate>Tue, 01 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Anthropic's Mythos-class update lands: Terminal-Bench-Science more than doubles to 52.6%, cache reads drop 75% to $0.25 per Mtok, base price holds at $10 / $50. Mythos 5.1 stays gated to vetted US orgs under Project Glasswing.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Nvidia underwrites 4.25 GW for OpenAI in Ohio</title>
+      <link>https://www.cnbc.com/2026/08/17/nvidia-financing-open-ai-data-center-ohio.html</link>
+      <guid isPermaLink="false">e-acc.ai:2026-08-17:nvidia-underwrites-4-25-gw-for-openai-in-ohio</guid>
+      <pubDate>Mon, 17 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Nvidia backs up to $105B of financing for OpenAI's Pike County campus — 4.25 GW in the first phase, 3.75 GW optional, online from 2028. SoftBank's SB Energy builds it and pledges 10 GW of new generation. The single largest compute financing on record.</description>
+      <category>compute</category>
+    </item>
+    <item>
+      <title>[frontier] Grok 4.6 ships</title>
+      <link>https://x.ai/news/grok-4-6</link>
+      <guid isPermaLink="false">e-acc.ai:2026-08-12:grok-4-6-ships</guid>
+      <pubDate>Wed, 12 Aug 2026 00:00:00 GMT</pubDate>
+      <description>xAI's new flagship matches GPT-5.6 Sol on the Artificial Analysis index, one point behind Fable 5, at $2 / $6 per Mtok with a 500K context. Live day one in Cursor, Grok Build and the API. Grok 5 is still in training.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>GPT-5.6 Cyber ships to vetted partners only</title>
+      <link>https://techcrunch.com/2026/08/10/as-ai-led-attacks-multiply-openai-launches-a-new-cyber-model/</link>
+      <guid isPermaLink="false">e-acc.ai:2026-08-10:gpt-5-6-cyber-ships-to-vetted-partners-only</guid>
+      <pubDate>Mon, 10 Aug 2026 00:00:00 GMT</pubDate>
+      <description>OpenAI releases a cyber-tuned Sol variant to a trusted tier — Accenture, IBM, CrowdStrike, Cloudflare — through its Daybreak Red program. Frontier capability now ships by clearance level, not by API key.</description>
+      <category>policy</category>
+    </item>
+    <item>
+      <title>[frontier] Qwen3.8-Max ships</title>
+      <link>https://www.marktechpost.com/2026/08/03/alibaba-qwen-releases-qwen3-8-max/</link>
+      <guid isPermaLink="false">e-acc.ai:2026-08-03:qwen3-8-max-ships</guid>
+      <pubDate>Mon, 03 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Alibaba's 2.4T-parameter MoE (95B active) lands at $2 / $6 per Mtok, with the weights following on Hugging Face ten days later — the first Max-class Qwen ever released openly. Two open '2T+' models from China inside a month.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>OpenAI unveils Astra with ten solved open problems</title>
+      <link>https://the-decoder.com/openai-announces-its-next-major-model-astra-by-dropping-ten-previously-unsolved-math-solutions/</link>
+      <guid isPermaLink="false">e-acc.ai:2026-08-01:openai-unveils-astra-with-ten-solved-open-problems</guid>
+      <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
+      <description>An internal build of OpenAI's next model family closes ten math and TCS problems open for a decade or more — for about $2,000 of inference. Altman demos the multi-agent system to senators and the White House economic team; no release date, and no decision yet on calling it GPT-6.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Google ships three Flash models, still no 3.5 Pro</title>
+      <link>https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/</link>
+      <guid isPermaLink="false">e-acc.ai:2026-07-21:google-ships-three-flash-models-still-no-3-5-pro</guid>
+      <pubDate>Tue, 21 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Gemini 3.6 Flash, 3.5 Flash-Lite and 3.5 Flash Cyber land, but the Pro promised at I/O in May stays unshipped after 'internal delays'. Almost as a footnote: DeepMind has started its most ambitious pre-training run yet, for Gemini 4.</description>
+      <category>model</category>
+    </item>
     <item>
       <title>[frontier] Kimi K3 ships</title>
       <link>https://platform.kimi.ai/docs/guide/kimi-k3-quickstart</link>
