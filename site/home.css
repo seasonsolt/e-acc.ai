@@ -1,0 +1,490 @@
+/* ── homepage: deep phosphor ──────────────────────────────────────────────
+   Loaded after styles.css by site/index.html ONLY. Overrides the shared
+   phosphor-CRT tokens for the one hand-written page: full-bleed hero with a
+   perspective floor and token rain, the altar counter as the centrepiece,
+   three monolithic metrics, an oscilloscope-style chart, a full-bleed CTA.
+   Generated inner pages never load this file.                              */
+
+:root {
+  --bg: #010403;
+  --bg-deep: #041a0d;
+  --bg-glow: #0b3a1c;
+  --bg-input: rgba(1, 10, 5, 0.85);
+  --phosphor-white: #d9ffe6;
+  --text-strong: #e6f5ea;
+  --text-dim-lit: #8fb89c; /* hero eyebrows sit on the brightest gradient — needs the extra lift */
+
+  --fs-tagline: clamp(4.4rem, 9.4vw, 8.5rem);
+  --fs-counter: clamp(3.4rem, 8.3vw, 7.5rem);
+  --fs-metric: clamp(4.5rem, 8.9vw, 8rem);
+  --fs-h2: clamp(2.5rem, 4.4vw, 4rem);
+  --fs-cta: clamp(3.4rem, 6.7vw, 6rem);
+
+  --page-max: 1200px;
+  --gutter: clamp(1.25rem, 2.8vw, 2.5rem);
+
+  --glow: 0 0 14px rgba(51, 255, 102, 0.6), 0 0 70px rgba(51, 255, 102, 0.3);
+  --glow-soft: 0 0 10px rgba(51, 255, 102, 0.45), 0 0 42px rgba(51, 255, 102, 0.14);
+  --glow-amber: 0 0 14px rgba(255, 179, 71, 0.6), 0 0 70px rgba(255, 179, 71, 0.25);
+}
+
+body {
+  background: var(--bg);
+  background-image: none;
+}
+
+.crt {
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse 100% 60% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+a:hover {
+  text-shadow: var(--glow-soft);
+}
+
+/* ── shared: the perspective grid floor ───────────────────────────────── */
+.floor {
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: 0;
+  height: 560px;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(51, 255, 102, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51, 255, 102, 0.35) 1px, transparent 1px);
+  background-size: 80px 80px;
+  transform: perspective(700px) rotateX(64deg);
+  transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 60%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 60%);
+  animation: floor-scroll 6s linear infinite;
+}
+@keyframes floor-scroll {
+  from { background-position: 0 0; }
+  to { background-position: 0 80px; }
+}
+
+/* ── status bar: floats over the hero ─────────────────────────────────── */
+.statusbar {
+  padding: 0.9rem var(--gutter);
+  background: linear-gradient(180deg, rgba(1, 4, 3, 0.85), rgba(1, 4, 3, 0));
+  border-bottom: 0;
+  backdrop-filter: none;
+}
+.statusbar-host {
+  letter-spacing: 0.06em;
+}
+.statusbar-nav {
+  gap: 1.75rem;
+  margin-left: auto;
+}
+
+/* ── layout: main goes full-bleed, .container restores the measure ────── */
+main {
+  max-width: none;
+  padding: 0;
+}
+.container {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ── hero: full-bleed, viewport-height ────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-top: -3.3rem; /* pull up under the floating status bar */
+  padding: 5rem var(--gutter) 6rem;
+  border-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse 70% 55% at 50% 38%, var(--bg-glow) 0%, var(--bg-deep) 40%, var(--bg) 75%);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent, var(--bg));
+  z-index: 4;
+}
+.hero > * {
+  position: relative;
+  z-index: 3;
+}
+.hero > .floor {
+  position: absolute; /* .hero > * above would otherwise pull the floor into flow */
+  z-index: 1;
+}
+
+/* token rain — four faint vertical columns of the thing being burned */
+.rain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.05;
+  color: var(--phosphor);
+  opacity: 0.22;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  animation: rain-drift 14s linear infinite;
+}
+.rain:nth-child(2) { left: 6%; }
+.rain:nth-child(3) { left: 18%; opacity: 0.12; animation-duration: 19s; }
+.rain:nth-child(4) { right: 8%; animation-duration: 16s; }
+.rain:nth-child(5) { right: 21%; opacity: 0.12; animation-duration: 22s; }
+@keyframes rain-drift {
+  from { transform: translateY(-12%); }
+  to { transform: translateY(12%); }
+}
+
+.bootlog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.4rem;
+  color: var(--text-dim-lit);
+  margin-bottom: 1.75rem;
+}
+
+.tagline {
+  line-height: 0.86;
+  margin-bottom: 2rem;
+  max-width: 13ch;
+}
+.tagline-term {
+  font-size: 0.24em;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.25em;
+}
+
+/* the altar counter — no box any more; it IS the page */
+.altar {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin-bottom: 2.25rem;
+  max-width: 100%;
+}
+.altar-label {
+  letter-spacing: 0.3em;
+  color: var(--text-dim-lit);
+}
+.altar-count {
+  line-height: 1;
+  color: var(--phosphor-white);
+  animation: altar-pulse 2.4s ease-in-out infinite;
+}
+@keyframes altar-pulse {
+  0%, 100% { text-shadow: 0 0 12px rgba(51, 255, 102, 0.7), 0 0 60px rgba(51, 255, 102, 0.35), 0 0 140px rgba(51, 255, 102, 0.2); }
+  50% { text-shadow: 0 0 20px rgba(164, 255, 192, 0.9), 0 0 90px rgba(51, 255, 102, 0.5), 0 0 200px rgba(51, 255, 102, 0.3); }
+}
+.altar-rate {
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-dim-lit);
+}
+.altar-rate strong {
+  font-size: 1.125rem;
+}
+.altar-rate a {
+  color: var(--text-dim-lit);
+  font-size: 0.75rem;
+}
+
+/* ── subscribe prompts ────────────────────────────────────────────────── */
+.subscribe-inline,
+.subscribe-main {
+  width: 100%;
+}
+.prompt-row {
+  box-shadow: 0 0 40px rgba(51, 255, 102, 0.18);
+}
+.prompt-row input {
+  border-color: var(--phosphor);
+  padding: 0.85rem 1.1rem;
+}
+.prompt-row input:focus {
+  box-shadow: inset 0 0 12px rgba(51, 255, 102, 0.18);
+}
+.prompt-row button {
+  letter-spacing: 0.12em;
+  padding: 0.85rem 2rem;
+  box-shadow: 0 0 24px rgba(51, 255, 102, 0.6);
+}
+.prompt-row button:hover {
+  box-shadow: 0 0 36px rgba(51, 255, 102, 0.8);
+}
+.prompt-hint {
+  color: var(--text-dim-lit);
+  margin-top: 0.75rem;
+}
+
+/* ── metrics: three monoliths, full-bleed ─────────────────────────────── */
+.metrics-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--phosphor-faint);
+  border-bottom: 1px solid var(--phosphor-faint);
+  margin-bottom: 0;
+}
+.metric {
+  padding: var(--space-4) clamp(1.25rem, 3.3vw, 3rem);
+  gap: 0.9rem;
+  align-content: start;
+  border-right: 1px solid var(--phosphor-faint);
+  background: linear-gradient(180deg, rgba(51, 255, 102, 0.08), transparent 60%);
+}
+.metric:last-child {
+  border-right: 0;
+}
+.metric-value {
+  line-height: 0.9;
+}
+.metric:nth-child(2) {
+  background: linear-gradient(180deg, rgba(255, 179, 71, 0.08), transparent 60%);
+}
+.metric-label {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ── panels ───────────────────────────────────────────────────────────── */
+.panel {
+  padding: 4.5rem 0 0;
+}
+.panel-title {
+  margin-bottom: var(--space-1);
+}
+.panel-name {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: 0.95;
+  color: var(--phosphor-bright);
+  text-shadow: var(--glow);
+}
+.panel-more {
+  margin-top: var(--space-2);
+  font-size: var(--fs-small);
+}
+
+/* ── acceleration log ─────────────────────────────────────────────────── */
+.log-entry {
+  grid-template-columns: 8.5rem 6rem 1fr;
+  gap: 1.5rem;
+  padding: 1.1rem 0 1.1rem 1.75rem;
+  border-bottom: 1px solid rgba(30, 92, 56, 0.3);
+}
+.log-entry::before {
+  left: -4px;
+  top: 1.6rem;
+  width: 7px;
+  height: 7px;
+}
+.log-entry[data-frontier="true"]::before {
+  box-shadow: 0 0 10px var(--phosphor), 0 0 24px rgba(51, 255, 102, 0.6);
+}
+.log-date {
+  font-size: 0.85rem;
+  padding-top: 0.2rem;
+}
+.log-tag {
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.5rem;
+}
+.log-title {
+  color: var(--text-strong);
+  font-size: 1.05rem;
+}
+.log-detail {
+  font-size: 0.875rem;
+  max-width: 70ch;
+}
+
+/* ── price chart: full-bleed oscilloscope ─────────────────────────────── */
+.panel-wide {
+  max-width: none;
+}
+.chart-frame {
+  border-color: var(--phosphor-dim);
+  background:
+    linear-gradient(rgba(51, 255, 102, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51, 255, 102, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, var(--bg-deep), var(--bg));
+  background-size: 100% 76px, 96px 100%, 100% 100%;
+  box-shadow: inset 0 0 80px rgba(51, 255, 102, 0.08);
+}
+.price-chart svg {
+  max-height: 520px;
+  margin: 0 auto;
+}
+
+/* ── readme (what is e/acc) ───────────────────────────────────────────── */
+.readme-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+}
+.readme-kicker {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: var(--glow-amber);
+}
+.readme {
+  max-width: none;
+  font-size: 1rem;
+}
+.readme p:last-of-type {
+  color: var(--text-dim);
+}
+.readme-links {
+  gap: 0.35rem;
+  font-size: 0.875rem;
+}
+
+/* ── CTA band: full-bleed, floor returns ──────────────────────────────── */
+.panel-cta {
+  position: relative;
+  margin-top: var(--space-5);
+  padding: 5.5rem var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  border: 0;
+  border-top: 1px solid var(--phosphor-faint);
+  background: radial-gradient(ellipse 60% 100% at 50% 100%, var(--bg-glow) 0%, var(--bg-deep) 45%, var(--bg) 80%);
+}
+.panel-cta > .floor {
+  height: 320px;
+  opacity: 0.6;
+  z-index: 1;
+}
+.panel-cta > :not(.floor) {
+  position: relative;
+  z-index: 2;
+}
+.panel-cta .panel-name {
+  display: none; /* the CTA lead below is the visible heading text; the h2 keeps its command line */
+}
+.cta-lead {
+  font-size: var(--fs-cta);
+  line-height: 0.9;
+  margin: 0.5rem 0 0.75rem;
+}
+.cta-sub {
+  max-width: 58ch;
+  margin-bottom: 2.25rem;
+}
+
+/* ── footer ───────────────────────────────────────────────────────────── */
+.site-footer {
+  gap: var(--space-1) 0.75rem;
+  padding: var(--space-3) var(--gutter) var(--space-4);
+}
+
+/* ── responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .readme-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .statusbar {
+    background: rgba(1, 4, 3, 0.9);
+  }
+  .statusbar-nav {
+    gap: 0.35rem 1rem; /* restore the shared mobile wrap spacing the desktop override widened */
+  }
+  .hero {
+    margin-top: 0;
+    padding: 4rem var(--gutter) 5rem;
+  }
+  .rain:nth-child(3),
+  .rain:nth-child(5) {
+    display: none;
+  }
+  .bootlog {
+    display: none; /* three status lines cost a third of the phone viewport */
+  }
+  .tagline {
+    font-size: 4rem; /* "fed by tokens" (13ch) must hold one line at 335px */
+    max-width: 13ch;
+  }
+  .altar-label {
+    letter-spacing: 0.18em;
+  }
+  .cta-lead {
+    font-size: 2.9rem; /* "One email a week:" on one line at 335px */
+  }
+  .metrics-strip {
+    grid-template-columns: 1fr;
+  }
+  .metric {
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.5rem var(--gutter);
+    border-right: 0;
+    border-bottom: 1px solid var(--phosphor-faint);
+  }
+  .metric:last-child {
+    border-bottom: 0;
+  }
+  .prompt-row {
+    box-shadow: none;
+  }
+  .prompt-row input {
+    border-right: 1px solid var(--phosphor);
+  }
+  .prompt-row button {
+    padding: 0.9rem;
+  }
+  .chart-frame {
+    padding: var(--space-1);
+    background-size: 100% 44px, 48px 100%, 100% 100%;
+  }
+}
+
+/* ── reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .floor,
+  .rain,
+  .altar-count {
+    animation: none;
+  }
+  .altar-count {
+    text-shadow: var(--glow);
+  }
+}
