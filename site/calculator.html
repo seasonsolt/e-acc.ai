@@ -55,7 +55,7 @@
           Paste text or type a word count, set an expected reply length, and get the API cost
           for every tracked model — ranked cheapest first. Estimates use the standard English
           heuristics (~0.75 words or ~4 characters per token). Prices are standard-tier USD per
-          million tokens, verified 2026-07-23; see also
+          million tokens, verified 2026-09-02; see also
           <a href="./timeline">what shipped when</a> and
           <a href="./what-is-eacc">why this site exists</a>.
         </p>
@@ -90,7 +90,7 @@
             <tbody><!-- rendered by calculator.js --></tbody>
           </table>
           <p class="chart-caption">
-            Registry updated 2026-07-23. Cache discounts, batch tiers and promos not
+            Registry updated 2026-09-02. Cache discounts, batch tiers and promos not
             included — this is the standard pay-as-you-go rate.
           </p>
         </div>
@@ -101,26 +101,28 @@
     "slug": "gpt-5-6-sol",
     "name": "GPT-5.6 Sol",
     "provider": "OpenAI",
-    "input_usd_per_mtok": 5,
-    "output_usd_per_mtok": 30,
-    "note": "Flagship tier of the GPT-5.6 family; generally available since 2026-07-09.",
+    "input_usd_per_mtok": 4,
+    "output_usd_per_mtok": 20,
+    "note": "Flagship tier of the GPT-5.6 family, GA since 2026-07-09. Promotional price (cut from $5 / $30 in late July), guaranteed at least through 2026-11-21.",
     "source_url": "https://developers.openai.com/api/docs/pricing"
   },
   {
     "slug": "gpt-5-6-terra",
     "name": "GPT-5.6 Terra",
     "provider": "OpenAI",
-    "input_usd_per_mtok": 2.5,
-    "output_usd_per_mtok": 15,
-    "source_url": "https://developers.openai.com/api/docs/pricing"
+    "input_usd_per_mtok": 2,
+    "output_usd_per_mtok": 12,
+    "source_url": "https://developers.openai.com/api/docs/pricing",
+    "note": "Cut 20% from $2.50 / $15 on 2026-07-30."
   },
   {
     "slug": "gpt-5-6-luna",
     "name": "GPT-5.6 Luna",
     "provider": "OpenAI",
-    "input_usd_per_mtok": 1,
-    "output_usd_per_mtok": 6,
-    "source_url": "https://developers.openai.com/api/docs/pricing"
+    "input_usd_per_mtok": 0.2,
+    "output_usd_per_mtok": 1.2,
+    "source_url": "https://developers.openai.com/api/docs/pricing",
+    "note": "Cut 80% from $1 / $6 on 2026-07-30; now matches GPT-5.4 nano on input."
   },
   {
     "slug": "gpt-5-5",
@@ -147,6 +149,15 @@
     "source_url": "https://platform.claude.com/docs/en/about-claude/pricing"
   },
   {
+    "slug": "claude-fable-5-1",
+    "name": "Claude Fable 5.1",
+    "provider": "Anthropic",
+    "input_usd_per_mtok": 10,
+    "output_usd_per_mtok": 50,
+    "note": "Shipped 2026-09-01 at Fable 5 prices, but cache reads drop to $0.25 (0.025x input) versus $1 on Fable 5.",
+    "source_url": "https://platform.claude.com/docs/en/about-claude/pricing"
+  },
+  {
     "slug": "claude-opus-4-8",
     "name": "Claude Opus 4.8",
     "provider": "Anthropic",
@@ -160,7 +171,7 @@
     "provider": "Anthropic",
     "input_usd_per_mtok": 2,
     "output_usd_per_mtok": 10,
-    "note": "Introductory pricing through 2026-08-31; standard tier is $3 / $15.",
+    "note": "Launched as introductory pricing through 2026-08-31; Anthropic made $2 / $10 the permanent price instead of raising to $3 / $15.",
     "source_url": "https://platform.claude.com/docs/en/about-claude/pricing"
   },
   {
@@ -169,6 +180,15 @@
     "provider": "Google",
     "input_usd_per_mtok": 0.5,
     "output_usd_per_mtok": 3,
+    "source_url": "https://ai.google.dev/gemini-api/docs/pricing"
+  },
+  {
+    "slug": "gemini-3-7-flash",
+    "name": "Gemini 3.7 Flash",
+    "provider": "Google",
+    "input_usd_per_mtok": 0.75,
+    "output_usd_per_mtok": 3.75,
+    "note": "Introductory price through 2026-12-31; rises to $1.50 / $7.50 on 2027-01-01.",
     "source_url": "https://ai.google.dev/gemini-api/docs/pricing"
   },
   {
@@ -183,17 +203,19 @@
     "slug": "deepseek-v4-pro",
     "name": "DeepSeek V4 Pro",
     "provider": "DeepSeek",
-    "input_usd_per_mtok": 1.74,
-    "output_usd_per_mtok": 3.48,
-    "source_url": "https://api-docs.deepseek.com/quick_start/pricing"
+    "input_usd_per_mtok": 1.32,
+    "output_usd_per_mtok": 3.96,
+    "source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "note": "Peak-hour price (01:00-04:00 and 06:00-10:00 UTC, Mon-Fri) since 2026-08-16; off-peak is half: $0.66 / $1.98. Cache-hit input $0.044."
   },
   {
     "slug": "deepseek-v4-flash",
     "name": "DeepSeek V4 Flash",
     "provider": "DeepSeek",
-    "input_usd_per_mtok": 0.14,
-    "output_usd_per_mtok": 0.28,
-    "source_url": "https://api-docs.deepseek.com/quick_start/pricing"
+    "input_usd_per_mtok": 0.44,
+    "output_usd_per_mtok": 1.32,
+    "source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "note": "Peak-hour price since 2026-08-16; off-peak is half: $0.22 / $0.66. Cache-hit input $0.014."
   },
   {
     "slug": "kimi-k3",
@@ -210,8 +232,17 @@
     "provider": "xAI",
     "input_usd_per_mtok": 2,
     "output_usd_per_mtok": 6,
-    "note": "xAI's V9-Medium coding model (1.5T), shipped 2026-07-08 as an interim before the still-unreleased Grok 5.",
+    "note": "xAI's V9-Medium coding model (1.5T), shipped 2026-07-08; superseded by Grok 4.6 on 2026-08-12 at the same price.",
     "source_url": "https://x.ai"
+  },
+  {
+    "slug": "grok-4-6",
+    "name": "Grok 4.6",
+    "provider": "xAI",
+    "input_usd_per_mtok": 2,
+    "output_usd_per_mtok": 6,
+    "note": "xAI's flagship since 2026-08-12; 500K context. A faster variant bills at double these rates.",
+    "source_url": "https://x.ai/news/grok-4-6"
   }
 ]
         </script>
@@ -264,7 +295,7 @@
       <span aria-hidden="true">·</span>
       <a href="./api">API &amp; RSS</a>
       <span aria-hidden="true">·</span>
-      <a href="mailto:hello@e-acc.ai">hello@e-acc.ai</a>
+      <a href="mailto:contact@e-acc.ai">contact@e-acc.ai</a>
     </footer>
     <script src="./guard.js" defer></script>
   </body>

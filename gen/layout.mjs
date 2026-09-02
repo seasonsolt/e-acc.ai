@@ -124,7 +124,7 @@ ${body}
       <a href="${base}">home</a>
       <span aria-hidden="true">·</span>
 ${footerLinks(base)}
-      <a href="mailto:hello@e-acc.ai">hello@e-acc.ai</a>
+      <a href="mailto:contact@e-acc.ai">contact@e-acc.ai</a>
     </footer>
     <script src="${base}guard.js" defer></script>
   </body>

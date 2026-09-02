@@ -1,10 +1,10 @@
 {
   "_readme": "Dashboard metrics. price_series tracks the cheapest API model matching or beating original GPT-4 (March 2023) on standard benchmarks — usd_per_mtok is INPUT price per million tokens. token_rate feeds the altar counter. Update weekly, then git push to deploy.",
-  "updated": "2026-07-04",
+  "updated": "2026-09-02",
   "token_rate": {
     "tokens_per_second": 2000000000,
     "as_of": "2026-07",
-    "note": "Conservative industry-wide estimate. Google alone disclosed 3.2 quadrillion tokens/month (~1.2B tok/s) at I/O 2026, up 7x YoY; this figure extrapolates across all providers.",
+    "note": "Conservative industry-wide estimate. Google alone disclosed 3.2 quadrillion tokens/month (~1.2B tok/s) at I/O 2026, up 7x YoY; OpenAI's API runs ~15B tokens/minute (~250M tok/s). No newer industry-wide disclosure as of 2026-09.",
     "source_url": "https://blog.google/innovation-and-ai/sundar-pichai-io-2026/"
   },
   "price_series": {
@@ -53,7 +53,7 @@
     ]
   },
   "headline": {
-    "price_note": "GPT-4-class intelligence: $30.00 -> $0.05 per Mtok",
+    "price_note": "GPT-4-class intelligence: $30.00 -> $0.05 per Mtok (GPT-5 nano still the floor, re-verified 2026-09-02)",
     "price_factor": "600x cheaper in 29 months"
   }
 }
