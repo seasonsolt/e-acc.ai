@@ -14,8 +14,9 @@ import calculator from "./pages/calculator.mjs";
 import pricing from "./pages/pricing.mjs";
 import api from "./pages/api.mjs";
 import benchmark from "./pages/benchmark.mjs";
+import codingPlan from "./pages/coding-plan.mjs";
 
-const pages = [whatIsEacc, eaccVsDacc, eaccGlossary, timeline, calculator, ...pricing, api, benchmark];
+const pages = [whatIsEacc, eaccVsDacc, eaccGlossary, timeline, calculator, ...pricing, api, benchmark, codingPlan];
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const siteDir = join(root, "site");
 const SITE = "https://e-acc.ai";

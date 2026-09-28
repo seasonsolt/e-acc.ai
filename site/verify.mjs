@@ -170,6 +170,7 @@ const keywordFor = (file) => {
   if (file === "pricing.html" || file.startsWith("pricing/")) return "pricing";
   if (file === "api.html") return "api";
   if (file === "benchmark.html") return "benchmark";
+  if (file === "coding-plan.html") return "claude code";
   return null;
 };
 
@@ -230,7 +231,7 @@ ok(`pages: ${pages.size} html files pass TDH/canonical/structured-data checks`);
 
 // every top-level page must be reachable from every page's chrome —
 // this is what caught /benchmark being orphaned from the nav
-const NAV_SLUGS = ["what-is-eacc", "timeline", "pricing", "benchmark", "calculator", "api"];
+const NAV_SLUGS = ["what-is-eacc", "timeline", "pricing", "benchmark", "calculator", "coding-plan", "api"];
 for (const [file, html] of pages) {
   for (const slug of NAV_SLUGS) {
     const rel = file.includes("/") ? `\\.\\./${slug}` : `\\./${slug}`;
@@ -307,10 +308,13 @@ try {
 }
 
 // ── 5. subscribe forms ────────────────────────────────────────────────────
+// SaaS product pages (ADR-0005) are zh-CN and have no Chinese newsletter yet, so they
+// deliberately carry no English e/acc subscribe form.
+const NO_SUBSCRIBE_FORM = new Set(["coding-plan.html"]);
 let placeholderSeen = false;
 for (const [file, html] of pages) {
   const actions = [...html.matchAll(/action="([^"]+)"/g)].map((m) => m[1]);
-  if (actions.length === 0) fail(`${file}: no subscribe form`);
+  if (actions.length === 0 && !NO_SUBSCRIBE_FORM.has(file)) fail(`${file}: no subscribe form`);
   for (const action of actions) {
     if (action.includes("REPLACE_WITH_BUTTONDOWN_USERNAME")) placeholderSeen = true;
     else if (!action.startsWith("https://buttondown.com/api/emails/embed-subscribe/")) {

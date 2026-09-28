@@ -10,7 +10,7 @@ zero dependencies, generated from JSON data and deployed on Cloudflare Pages
 - `npm run build` — regenerate all pages + sitemap from `site/data/*.json` (`gen/build.mjs`)
 - `npm run verify` — full-site contract tests: data schemas, per-page TDH, canonicals,
   cross-page link graph, sitemap consistency (`site/verify.mjs`)
-- `npm test` — unit tests for the calculator's pure math module
+- `npm test` — unit tests for the pure modules in `site/lib/` (calculator math, coding-plan config rendering)
 - `node gen/indexnow.mjs` — push sitemap URLs to IndexNow (Bing/Yandex) after deploys
 
 ## Architecture

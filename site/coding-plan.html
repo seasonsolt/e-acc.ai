@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Code / Codex 接入国产模型配置生成器：DeepSeek、GLM、Kimi | e-acc.ai</title>
+    <meta name="description" content="Claude Code、Codex CLI、opencode 接入 DeepSeek、智谱 GLM、Kimi、MiniMax、阿里云百炼、火山方舟的配置生成器：选客户端和厂商，直接复制官方配置，附 Coding Plan 包月套餐价格对比与常见报错处理。所有端点和价格照抄厂商官方文档，核实于 2026-09-28。" />
+    <link rel="canonical" href="https://e-acc.ai/coding-plan" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://e-acc.ai/coding-plan" />
+    <meta property="og:title" content="Claude Code / Codex 接入国产模型配置生成器：DeepSeek、GLM、Kimi | e-acc.ai" />
+    <meta property="og:description" content="Claude Code、Codex CLI、opencode 接入 DeepSeek、智谱 GLM、Kimi、MiniMax、阿里云百炼、火山方舟的配置生成器：选客户端和厂商，直接复制官方配置，附 Coding Plan 包月套餐价格对比与常见报错处理。所有端点和价格照抄厂商官方文档，核实于 2026-09-28。" />
+    <meta property="og:image" content="https://e-acc.ai/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="./fonts/vt323.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="e/acc — the acceleration log" href="./feed.xml" />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "国产模型 Coding Plan 配置生成器",
+  "url": "https://e-acc.ai/coding-plan",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "zh-CN",
+  "isAccessibleForFree": true,
+  "dateModified": "2026-09-28"
+}
+    </script>
+  </head>
+  <body>
+    <div class="crt" aria-hidden="true"></div>
+
+    <header class="statusbar">
+      <a class="statusbar-host" href="./">e-acc.ai</a>
+      <span class="statusbar-sep" aria-hidden="true">─</span>
+      <span class="statusbar-tty" aria-hidden="true">tty1</span>
+      <nav class="statusbar-nav" aria-label="Sections">
+        <a href="./what-is-eacc">e/acc?</a>
+        <a href="./timeline">timeline</a>
+        <a href="./pricing">pricing</a>
+        <a href="./benchmark">benchmark</a>
+        <a href="./calculator">calculator</a>
+        <a href="./coding-plan">coding plan</a>
+        <a href="./api">api</a>
+      </nav>
+    </header>
+
+    <main>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="./">~</a> <span aria-hidden="true">/</span> <span>coding-plan</span>
+      </nav>
+
+      <section class="panel page-panel">
+        <h1 class="panel-title page-h1">
+          <span class="panel-cmd" aria-hidden="true">$ eacc coding-plan</span>
+          <span class="panel-name">Claude Code / Codex 接入国产模型：Coding Plan 配置生成器</span>
+        </h1>
+
+        <p class="panel-lead">
+          选择你用的 AI 编程客户端和国产模型厂商，直接得到可以粘贴的配置。所有端点、模型名和价格都照抄自厂商官方文档，
+          每一项都附来源链接和核实日期。读者直接向厂商付费，用厂商自己的 API key 和官方兼容端点——本页不收录任何中转、代充或共享账号服务。
+        </p>
+
+        <div class="cp-tool" id="cp-tool">
+          <div class="calc-row cp-row">
+            <label for="cp-client">客户端</label>
+            <select id="cp-client"><option value="claude-code" selected>Claude Code</option><option value="codex">Codex CLI</option><option value="opencode">opencode</option></select>
+            <label for="cp-offering">厂商 / 方案</label>
+            <select id="cp-offering"><option value="deepseek-api" selected>DeepSeek · 按量计费 API</option><option value="glm-coding-plan">智谱 GLM · GLM Coding Plan</option><option value="minimax-token-plan">MiniMax · MiniMax Token Plan</option><option value="kimi-api">Kimi · Kimi 开放平台（按量计费）</option><option value="bailian-token-plan">阿里云百炼 · 百炼 Token Plan（个人版）</option><option value="volcengine-coding-plan">火山方舟 · 方舟 Coding Plan</option></select>
+          </div>
+          <div class="cp-output" id="cp-output" aria-live="polite">
+<ol class="cp-steps"><li>打开（或新建）~/.claude/settings.json，写入下面的内容，把尖括号里的占位符换成你自己的 key。</li><li>如果 shell 里 export 过 ANTHROPIC_* 变量，先 unset，否则会覆盖这里的配置。</li></ol><p class="cp-file">~/.claude/settings.json</p><pre class="cp-code"><code>{
+  &quot;env&quot;: {
+    &quot;ANTHROPIC_BASE_URL&quot;: &quot;https://api.deepseek.com/anthropic&quot;,
+    &quot;ANTHROPIC_AUTH_TOKEN&quot;: &quot;&lt;DEEPSEEK_API_KEY&gt;&quot;,
+    &quot;ANTHROPIC_MODEL&quot;: &quot;deepseek-flash[1m]&quot;,
+    &quot;ANTHROPIC_DEFAULT_OPUS_MODEL&quot;: &quot;deepseek-flash[1m]&quot;,
+    &quot;ANTHROPIC_DEFAULT_SONNET_MODEL&quot;: &quot;deepseek-flash[1m]&quot;,
+    &quot;ANTHROPIC_DEFAULT_HAIKU_MODEL&quot;: &quot;deepseek-flash&quot;,
+    &quot;CLAUDE_CODE_SUBAGENT_MODEL&quot;: &quot;deepseek-flash&quot;,
+    &quot;CLAUDE_CODE_EFFORT_LEVEL&quot;: &quot;max&quot;,
+    &quot;CLAUDE_CODE_AUTO_COMPACT_WINDOW&quot;: &quot;786432&quot;
+  }
+}</code></pre><button type="button" class="cp-copy" data-copy>复制配置</button><h3 class="cp-sub">注意</h3><ul class="cp-warn"><li>没有包月套餐，只能按量付费（先充值）。</li></ul><p class="cp-source">官方文档：<a href="https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code" rel="nofollow noopener" target="_blank">https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code</a> · 获取 key：<a href="https://platform.deepseek.com/api_keys" rel="nofollow noopener" target="_blank">DeepSeek 控制台</a> · 核实于 2026-09-28</p>
+          </div>
+        </div>
+
+        <h2 class="panel-title"><span class="panel-name">国产模型 Coding Plan 价格对比</span></h2>
+        <table class="calc-table cp-table">
+          <thead>
+            <tr><th>厂商 / 方案</th><th>计费</th><th>价格 / 套餐</th><th>Claude Code 端点</th><th>核实</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>DeepSeek<br /><span class="cp-muted">按量计费 API</span></td>
+              <td>按量计费</td>
+              <td>deepseek-flash：输入 ¥2 / 输出 ¥8 每百万 tokens</td>
+              <td><code>https://api.deepseek.com/anthropic</code></td>
+              <td><a href="https://api-docs.deepseek.com/zh-cn/quick_start/pricing" rel="nofollow noopener" target="_blank">2026-09-28</a></td>
+            </tr>
+            <tr>
+              <td>智谱 GLM<br /><span class="cp-muted">GLM Coding Plan</span></td>
+              <td>包月套餐</td>
+              <td>Lite ¥118/月<br />Pro ¥538/月<br />Max ¥1078/月</td>
+              <td><code>https://open.bigmodel.cn/api/anthropic</code></td>
+              <td><a href="https://docs.bigmodel.cn/cn/coding-plan/overview" rel="nofollow noopener" target="_blank">2026-09-28</a></td>
+            </tr>
+            <tr>
+              <td>MiniMax<br /><span class="cp-muted">MiniMax Token Plan</span></td>
+              <td>包月套餐</td>
+              <td>Plus ¥49/月<br />Max ¥119/月<br />Ultra ¥469/月</td>
+              <td><code>https://api.minimax.cn/anthropic</code></td>
+              <td><a href="https://platform.minimaxi.com/docs/guides/pricing-token-plan" rel="nofollow noopener" target="_blank">2026-09-28</a></td>
+            </tr>
+            <tr>
+              <td>Kimi<br /><span class="cp-muted">Kimi 开放平台（按量计费）</span></td>
+              <td>按量计费</td>
+              <td>kimi-k3：输入 ¥20 / 输出 ¥100 每百万 tokens</td>
+              <td><code>https://api.moonshot.cn/anthropic</code></td>
+              <td><a href="https://platform.kimi.com/docs/pricing/chat" rel="nofollow noopener" target="_blank">2026-09-28</a></td>
+            </tr>
+            <tr>
+              <td>阿里云百炼<br /><span class="cp-muted">百炼 Token Plan（个人版）</span></td>
+              <td>包月套餐</td>
+              <td>Lite ¥39/月<br />Essential ¥79/月<br />Standard ¥139/月<br />Pro ¥499/月</td>
+              <td><code>https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic</code></td>
+              <td><a href="https://help.aliyun.com/zh/model-studio/token-plan-overview" rel="nofollow noopener" target="_blank">2026-09-28</a></td>
+            </tr>
+            <tr>
+              <td>火山方舟<br /><span class="cp-muted">方舟 Coding Plan</span></td>
+              <td>包月套餐</td>
+              <td>Lite ¥40/月<br />Pro ¥200/月</td>
+              <td><code>https://ark.cn-beijing.volces.com/api/coding</code></td>
+              <td><a href="https://www.volcengine.com/docs/82379/2525065" rel="nofollow noopener" target="_blank">2026-09-28</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="chart-caption">
+          数据更新于 2026-09-28，仅收录中国大陆区端点。套餐额度与价格经常调整，下单前请以厂商页面为准；
+          英文 API 的美元价格见 <a href="./pricing">LLM API 价格表</a>，按 token 估算费用可用 <a href="./calculator">token 计算器</a>。
+        </p>
+
+        <h2 class="panel-title"><span class="panel-name">包月套餐还是按量计费？</span></h2>
+        <p>
+          <strong>按量计费</strong>（DeepSeek、Kimi 开放平台）用多少付多少，适合用量不稳定、或者要在脚本和生产环境里调用的场景。
+          <strong>包月套餐</strong>（智谱 GLM Coding Plan、MiniMax Token Plan、阿里云百炼 Token Plan、火山方舟 Coding Plan）
+          价格固定，按 5 小时 / 每周窗口限额，适合每天长时间用编程工具的个人开发者。
+          多数套餐规定额度只能在官方支持的编程工具里使用，直接调 API 不走套餐额度。
+        </p>
+
+        <h2 class="panel-title"><span class="panel-name">Claude Code、Codex CLI、opencode 分别怎么接</span></h2>
+        <p>
+          <strong>Claude Code</strong> 通过 Anthropic 兼容端点接入：在 <code>~/.claude/settings.json</code> 的 <code>env</code> 里设置
+          <code>ANTHROPIC_BASE_URL</code>、key 和各档模型名。<strong>Codex CLI</strong> 通过 OpenAI 兼容端点接入，
+          上面收录的厂商官方配置都使用 Responses 接口（<code>wire_api = "responses"</code>）。
+          <strong>opencode</strong> 大多已内置厂商 provider，运行 <code>opencode auth login</code> 选择厂商即可。
+        </p>
+
+        <h2 class="panel-title"><span class="panel-name">常见问题</span></h2>
+        <h3>配置写好了，Claude Code 还是连到别的地方？</h3>
+        <p>shell 里 export 的 <code>ANTHROPIC_AUTH_TOKEN</code>、<code>ANTHROPIC_BASE_URL</code> 优先级高于配置文件，先 unset，再检查 <code>~/.zshrc</code>、<code>~/.bashrc</code> 里有没有残留。</p>
+        <h3>为什么要加 hasCompletedOnboarding？</h3>
+        <p>不加的话，Claude Code 首次启动会要求登录 Anthropic 账号。智谱、MiniMax、百炼、火山的官方文档都要求在 <code>~/.claude.json</code> 里写入 <code>"hasCompletedOnboarding": true</code>。</p>
+        <h3>包月套餐的 key 能当普通 API key 用吗？</h3>
+        <p>一般不能。MiniMax 的 Token Plan key 与按量计费 key 不能互换；Kimi 开放平台 key 只能用于 api.moonshot.cn；火山方舟的套餐必须走 <code>/api/coding</code> 端点，填成 <code>/api/v3</code> 会按量额外扣费。</p>
+        <h3>为什么不收录"中转"服务？</h3>
+        <p>中转、代充、共享账号本质上是转售别人的额度，随时可能被封、跑路或泄露你的代码和 key。本页只收录厂商官方渠道。</p>
+
+        <h2 class="panel-title"><span class="panel-name">全厂商预设包</span></h2>
+        <p>
+          即将上线：所有客户端 × 所有厂商的现成预设（cc-switch、Codex、opencode），CLAUDE.md / AGENTS.md 模板，用量与成本统计脚本，
+          厂商改价后 30 天内免费更新。
+        </p>
+
+        <script type="application/json" id="cp-data">
+[{"id":"deepseek-api","vendor":"DeepSeek","product":"按量计费 API","billing":"payg","key_from":"https://platform.deepseek.com/api_keys","claude_code":{"env":{"ANTHROPIC_BASE_URL":"https://api.deepseek.com/anthropic","ANTHROPIC_AUTH_TOKEN":"<DEEPSEEK_API_KEY>","ANTHROPIC_MODEL":"deepseek-flash[1m]","ANTHROPIC_DEFAULT_OPUS_MODEL":"deepseek-flash[1m]","ANTHROPIC_DEFAULT_SONNET_MODEL":"deepseek-flash[1m]","ANTHROPIC_DEFAULT_HAIKU_MODEL":"deepseek-flash","CLAUDE_CODE_SUBAGENT_MODEL":"deepseek-flash","CLAUDE_CODE_EFFORT_LEVEL":"max","CLAUDE_CODE_AUTO_COMPACT_WINDOW":"786432"},"source_url":"https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code"},"codex":{"provider_id":"deepseek","base_url":"https://api.deepseek.com/","model":"deepseek-flash","wire_api":"responses","auth":"experimental_bearer_token","needs_model_catalog":true,"source_url":"https://api-docs.deepseek.com/quick_start/agent_integrations/codex"},"opencode":{"steps":"opencode ≥ v1.18.30 内置 DeepSeek：在输入框输入 /connect → 选择 deepseek → 填入 API key → 选择 DeepSeek-V4-Flash。","source_url":"https://api-docs.deepseek.com/quick_start/agent_integrations/opencode"},"pricing":{"unit":"元 / 百万 tokens（峰时；谷时半价）","rows":[{"model":"deepseek-flash","input":2,"cache_hit":0.04,"output":8},{"model":"deepseek-v4-pro","input":9,"cache_hit":0.3,"output":27}],"note":"峰时为北京时间工作日 9:00–12:00、14:00–18:00，其余时段半价。","source_url":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing"},"plans":[],"warnings":["没有包月套餐，只能按量付费（先充值）。"],"referral":"none","verified_at":"2026-09-28"},{"id":"glm-coding-plan","vendor":"智谱 GLM","product":"GLM Coding Plan","billing":"subscription","key_from":"https://www.bigmodel.cn/glm-coding","claude_code":{"env":{"ANTHROPIC_AUTH_TOKEN":"<GLM_API_KEY>","ANTHROPIC_BASE_URL":"https://open.bigmodel.cn/api/anthropic","ANTHROPIC_DEFAULT_HAIKU_MODEL":"glm-5.3-flash[1m]","ANTHROPIC_DEFAULT_SONNET_MODEL":"glm-5.3[1m]","ANTHROPIC_DEFAULT_OPUS_MODEL":"glm-5.3[1m]","CLAUDE_CODE_AUTO_COMPACT_WINDOW":"1000000","CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC":"1","API_TIMEOUT_MS":"3000000"},"onboarding":true,"source_url":"https://docs.bigmodel.cn/cn/coding-plan/tool/claude"},"codex":{"provider_id":"ZAI","base_url":"https://open.bigmodel.cn/api/v1","model":"glm-5.3","wire_api":"responses","auth":"experimental_bearer_token","needs_model_catalog":true,"source_url":"https://docs.bigmodel.cn/cn/coding-plan/tool/codex"},"opencode":{"steps":"运行 opencode auth login → 选择「Zhipu AI Coding Plan」→ 填入 API key。旧版本需在 ~/.config/opencode/opencode.json 手动配置专属端点 https://open.bigmodel.cn/api/coding/paas/v4（不是通用 API 端点）。","source_url":"https://docs.bigmodel.cn/cn/coding-plan/tool/opencode"},"pricing":{"unit":"元 / 百万 tokens（按量 API，与套餐无关）","rows":[{"model":"glm-5.3","input":8,"cache_hit":2,"output":28},{"model":"glm-5.3-flash","input":0.8,"cache_hit":0.23,"output":2.8}],"source_url":"https://docs.bigmodel.cn/cn/guide/start/pricing"},"plans":[{"name":"Lite","monthly_cny":118,"quota":"每 5 小时 2,000 积分，每周 10,000 积分"},{"name":"Pro","monthly_cny":538,"quota":"每 5 小时 12,000 积分，每周 60,000 积分"},{"name":"Max","monthly_cny":1078,"quota":"每 5 小时 28,000 积分，每周 140,000 积分"}],"plans_note":"2026-07-30 起改为积分制；连续包季 8 折、包年 7 折。GLM-5.3 每万 tokens 约耗输入 6.9 / 输出 24 积分，非高峰（工作日 14:00–18:00 以外）减半。老用户可按旧价续费。","plans_source_url":"https://docs.bigmodel.cn/cn/coding-plan/overview","warnings":["套餐额度只能在官方支持的编程工具里使用，直接调 API 不走套餐额度。"],"referral":"credits","verified_at":"2026-09-28"},{"id":"minimax-token-plan","vendor":"MiniMax","product":"MiniMax Token Plan","billing":"subscription","key_from":"https://platform.minimaxi.com/subscribe/token-plan","claude_code":{"env":{"ANTHROPIC_BASE_URL":"https://api.minimax.cn/anthropic","ANTHROPIC_AUTH_TOKEN":"<MINIMAX_TOKEN_PLAN_KEY>","CLAUDE_CODE_AUTO_COMPACT_WINDOW":"1000000","ANTHROPIC_MODEL":"MiniMax-M3[1m]","ANTHROPIC_DEFAULT_SONNET_MODEL":"MiniMax-M3[1m]","ANTHROPIC_DEFAULT_OPUS_MODEL":"MiniMax-M3[1m]","ANTHROPIC_DEFAULT_HAIKU_MODEL":"MiniMax-M3[1m]"},"onboarding":true,"source_url":"https://platform.minimaxi.com/docs/token-plan/claude-code"},"codex":{"provider_id":"minimax","base_url":"https://api.minimax.cn/v1","model":"MiniMax-M3","wire_api":"responses","auth":"experimental_bearer_token","needs_model_catalog":false,"source_url":"https://platform.minimaxi.com/docs/token-plan/codex"},"opencode":{"steps":"opencode 已内置 MiniMax-M3：运行 opencode auth login → 选择「MiniMax Token Plan（minimaxi.com）」→ 填入 Token Plan key。","source_url":"https://platform.minimaxi.com/docs/token-plan/other-tools"},"pricing":{"unit":"元 / 百万 tokens（按量 API，≤512K 输入，永久五折价）","rows":[{"model":"MiniMax-M3","input":2.1,"cache_hit":0.42,"output":8.4}],"source_url":"https://platform.minimaxi.com/docs/guides/pricing-paygo"},"plans":[{"name":"Plus","monthly_cny":49,"quota":"5 小时固定窗口 + 周窗口；每月约 6 亿+ tokens（M3）"},{"name":"Max","monthly_cny":119,"quota":"每月约 18 亿+ tokens（M3）"},{"name":"Ultra","monthly_cny":469,"quota":"每月约 71 亿+ tokens（M3）"}],"plans_note":"包年 ¥490 / ¥1,190 / ¥4,690。","plans_source_url":"https://platform.minimaxi.com/docs/guides/pricing-token-plan","warnings":["Token Plan 的 key（sk-cp 开头）与按量计费 key 不能互换。","shell 里已有的 ANTHROPIC_AUTH_TOKEN / ANTHROPIC_BASE_URL 环境变量优先级高于配置文件，先 unset。","官方说明面向个人开发者的交互式使用，生产环境请用按量付费。"],"referral":"credits","verified_at":"2026-09-28"},{"id":"kimi-api","vendor":"Kimi","product":"Kimi 开放平台（按量计费）","billing":"payg","key_from":"https://platform.kimi.com/console/api-keys","claude_code":{"env":{"ANTHROPIC_BASE_URL":"https://api.moonshot.cn/anthropic","ANTHROPIC_AUTH_TOKEN":"<MOONSHOT_API_KEY>","ANTHROPIC_MODEL":"kimi-k3[1m]","ANTHROPIC_DEFAULT_OPUS_MODEL":"kimi-k3[1m]","ANTHROPIC_DEFAULT_SONNET_MODEL":"kimi-k3[1m]","ANTHROPIC_DEFAULT_HAIKU_MODEL":"kimi-k2.7-code","ANTHROPIC_DEFAULT_FABLE_MODEL":"kimi-k3[1m]","CLAUDE_CODE_SUBAGENT_MODEL":"kimi-k3[1m]","CLAUDE_CODE_AUTO_COMPACT_WINDOW":"1000000","CLAUDE_CODE_EFFORT_LEVEL":"max"},"source_url":"https://platform.kimi.com/docs/guide/claude-code-kimi"},"codex":{"provider_id":"kimi","base_url":"https://api.moonshot.cn/v1","model":"kimi-k3","wire_api":"responses","auth":"env_key:KIMI_API_KEY","needs_model_catalog":false,"source_url":"https://platform.kimi.com/docs/guide/codex-kimi"},"opencode":{"steps":"运行 opencode auth login → 选择 Moonshot AI → 填入 API key；/models 选 Kimi K3。","source_url":"https://platform.kimi.ai/docs/guide/open-code"},"pricing":{"unit":"元 / 百万 tokens（无峰谷价）","rows":[{"model":"kimi-k3","input":20,"cache_hit":2,"output":100},{"model":"kimi-k2.7-code","input":6.5,"cache_hit":1.3,"output":27}],"source_url":"https://platform.kimi.com/docs/pricing/chat"},"plans":[],"warnings":["开放平台 key 只能用于 api.moonshot.cn，不能用于 Kimi Code 会员端点，反之亦然。","kimi-k2.7-code 只支持思考模式，关闭思考会报 400。","实名认证赠送的 15 元代金券不能用于 Kimi K3。"],"referral":"none","verified_at":"2026-09-28"},{"id":"bailian-token-plan","vendor":"阿里云百炼","product":"百炼 Token Plan（个人版）","billing":"subscription","key_from":"https://bailian.console.aliyun.com/","claude_code":{"env":{"ANTHROPIC_BASE_URL":"https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic","ANTHROPIC_AUTH_TOKEN":"<BAILIAN_API_KEY>","ANTHROPIC_MODEL":"auto","ANTHROPIC_DEFAULT_HAIKU_MODEL":"qwen3.6-flash","ANTHROPIC_DEFAULT_SONNET_MODEL":"qwen3.8-flash","ANTHROPIC_DEFAULT_OPUS_MODEL":"qwen3.8-max","CLAUDE_CODE_SUBAGENT_MODEL":"auto","CLAUDE_CODE_MAX_CONTEXT_TOKENS":"983616"},"onboarding":true,"source_url":"https://help.aliyun.com/zh/model-studio/claude-code"},"codex":null,"codex_note":"百炼 Token Plan 支持 Codex 的 Responses 接口，但官方配置需要额外的本地模型目录文件，v1 暂不生成，请按官方文档配置。","codex_source_url":"https://help.aliyun.com/zh/model-studio/codex","opencode":{"steps":"按官方文档在 opencode.json 中添加百炼 provider（Anthropic SDK 方式）。","source_url":"https://help.aliyun.com/zh/model-studio/opencode"},"pricing":null,"plans":[{"name":"Lite","monthly_cny":39,"quota":"11,500 Credits / 月（原价 ¥60，限时价）"},{"name":"Essential","monthly_cny":79,"quota":"25,500 Credits / 月（原价 ¥120）"},{"name":"Standard","monthly_cny":139,"quota":"45,000 Credits / 月（原价 ¥180）"},{"name":"Pro","monthly_cny":499,"quota":"180,000 Credits / 月（原价 ¥600）"}],"plans_note":"原 Coding Plan 的 Lite 已停售，Pro（¥200/月）限量抢购、售罄不补；官方推荐改用 Token Plan。","plans_source_url":"https://help.aliyun.com/zh/model-studio/token-plan-overview","warnings":["套餐不支持退款；官方说明模型输入输出会用于服务改进。"],"referral":"cash","referral_note":"阿里云云大使：Token Plan 个人版返利 10%（现金，可提现，需实名）。","verified_at":"2026-09-28"},{"id":"volcengine-coding-plan","vendor":"火山方舟","product":"方舟 Coding Plan","billing":"subscription","key_from":"https://console.volcengine.com/ark","claude_code":{"env":{"ANTHROPIC_AUTH_TOKEN":"<ARK_API_KEY>","ANTHROPIC_BASE_URL":"https://ark.cn-beijing.volces.com/api/coding","ANTHROPIC_MODEL":"ark-code-latest","ANTHROPIC_DEFAULT_HAIKU_MODEL":"ark-code-latest","ANTHROPIC_DEFAULT_SONNET_MODEL":"ark-code-latest","ANTHROPIC_DEFAULT_OPUS_MODEL":"ark-code-latest","CLAUDE_CODE_SUBAGENT_MODEL":"ark-code-latest","CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC":"1"},"onboarding":true,"source_url":"https://www.volcengine.com/docs/82379/1928262"},"codex":{"provider_id":"volcengine-coding-plan","base_url":"https://ark.cn-beijing.volces.com/api/coding/v3","model":"ark-code-latest","wire_api":"responses","auth":"env_key:ARK_API_KEY","needs_model_catalog":false,"source_url":"https://www.volcengine.com/docs/82379/2556056"},"opencode":{"steps":"按官方文档在 opencode.json 中添加 provider「volcengine-plan」，baseURL 填 https://ark.cn-beijing.volces.com/api/coding/v3，模型 ark-code-latest。","source_url":"https://www.volcengine.com/docs/82379/2188958"},"pricing":null,"plans":[{"name":"Lite","monthly_cny":40,"quota":"额度数字官方文档未公布"},{"name":"Pro","monthly_cny":200,"quota":"Lite 的 5 倍用量"}],"plans_note":"2026-11-08 前有首购优惠（Lite 前两月 ¥9.9、Pro ¥49.9，名额有限）。额度按 5 小时 / 每周 / 每月重置。","plans_source_url":"https://www.volcengine.com/docs/82379/2525065","warnings":["务必使用 /api/coding 端点；填成 /api/v3 不走套餐额度，会按量额外扣费。","CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 必须保留，否则遥测请求会悄悄消耗套餐额度。","模型名填 ark-code-latest，在控制台里切换具体模型；Auto 模式只能在控制台开启。","套餐只能用于编程工具，不能直接调 API。"],"referral":"credits","verified_at":"2026-09-28"}]
+        </script>
+        <script type="module" src="./coding-plan.js"></script>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <a href="./">home</a>
+      <span aria-hidden="true">·</span>
+      <a href="./what-is-eacc">what is e/acc</a>
+      <span aria-hidden="true">·</span>
+      <a href="./timeline">AI timeline</a>
+      <span aria-hidden="true">·</span>
+      <a href="./pricing">LLM pricing</a>
+      <span aria-hidden="true">·</span>
+      <a href="./benchmark">coding benchmark</a>
+      <span aria-hidden="true">·</span>
+      <a href="./calculator">token calculator</a>
+      <span aria-hidden="true">·</span>
+      <a href="./coding-plan">coding plan 配置生成器</a>
+      <span aria-hidden="true">·</span>
+      <a href="./api">API &amp; RSS</a>
+      <span aria-hidden="true">·</span>
+      <a href="mailto:contact@e-acc.ai">contact@e-acc.ai</a>
+    </footer>
+    <script src="./guard.js" defer></script>
+  </body>
+</html>

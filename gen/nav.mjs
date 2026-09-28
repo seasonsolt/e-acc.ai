@@ -8,6 +8,7 @@ export const NAV = [
   { slug: "pricing", nav: "pricing", footer: "LLM pricing" },
   { slug: "benchmark", nav: "benchmark", footer: "coding benchmark" },
   { slug: "calculator", nav: "calculator", footer: "token calculator" },
+  { slug: "coding-plan", nav: "coding plan", footer: "coding plan 配置生成器" },
   { slug: "api", nav: "api", footer: "API &amp; RSS" },
 ];
 
