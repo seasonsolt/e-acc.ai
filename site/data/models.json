@@ -146,7 +146,7 @@
       "provider": "xAI",
       "input_usd_per_mtok": 2.0,
       "output_usd_per_mtok": 6.0,
-      "note": "xAI's flagship since 2026-08-12; 500K context. A faster variant bills at double these rates.",
+      "note": "xAI's flagship from 2026-08-12 until Grok 4.7 replaced it on 2026-09-21 at the same $2 / $6 price; 500K context. A faster variant bills at double these rates.",
       "source_url": "https://x.ai/news/grok-4-6"
     }
   ]
