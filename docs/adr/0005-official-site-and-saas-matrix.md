@@ -37,6 +37,16 @@ other domain should turn it into revenue.
   build competing with funded incumbents; reviving it needs its own ADR and demand evidence.
 - The weekly data treadmill ends. Registry data is refreshed when it changes or monthly,
   and each file stamps its own `updated` date.
-- Open: whether the ui., law., sure. and k12. subdomains join the matrix or stay separate.
+- **Existing subdomains** (owner, 2026-09-28):
+  - `ui.e-acc.ai` is the owner's private UI library, not public. Keep it out of search
+    (noindex / robots Disallow) and out of every nav.
+  - `law.e-acc.ai` (UK immigration-lawyer deep agent on LlamaIndex + LangChain),
+    `sure.e-acc.ai` (insurance-writing agent) and `k12.e-acc.ai` (K-12 education agent) are
+    **vertical agent demos**. They stay on subdomains: each is its own stack, and they sell
+    through demos to businesses, not through search. The official site lists them as a
+    "vertical agents" section. Until one becomes a product with a public landing page it
+    stays noindex, and it must return real 404s. The 2026-09-28 audit found law. answering
+    200 for every path, robots.txt included, and sure. exposing an indexable login page.
+  - New search-driven products go under paths on e-acc.ai, as decided above.
 
 Plan and numbers: `docs/profit-replan-2026-09.md`. First product: `docs/products/coding-plan.md`.
