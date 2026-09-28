@@ -95,6 +95,45 @@ try {
   fail(`models.json: ${err.message}`);
 }
 
+// coding-plans.json feeds the /coding-plan product (ADR-0005). Every config value must
+// come from the vendor's own docs, and ADR-0001 forbids relays / resellers outright.
+const OFFICIAL_DOC_HOSTS = [
+  "api-docs.deepseek.com", "docs.bigmodel.cn", "platform.minimaxi.com", "platform.kimi.com",
+  "platform.kimi.ai", "help.aliyun.com", "www.volcengine.com",
+];
+const OFFICIAL_API_HOSTS = [
+  "api.deepseek.com", "open.bigmodel.cn", "api.minimax.cn", "api.moonshot.cn",
+  "token-plan.cn-beijing.maas.aliyuncs.com", "ark.cn-beijing.volces.com",
+];
+const hostOf = (url) => { try { return new URL(url).host; } catch { return ""; } };
+try {
+  const cp = JSON.parse(read("data/coding-plans.json"));
+  const ids = new Set();
+  const today = Date.parse(cp.updated);
+  const failuresBefore = failures;
+  (cp.offerings || []).forEach((o, i) => {
+    const at = `coding-plans.json offerings[${i}] (${o.id})`;
+    if (!/^[a-z0-9-]+$/.test(o.id || "") || ids.has(o.id)) fail(`${at}: id must be unique and url-safe`);
+    ids.add(o.id);
+    if (!o.vendor || !o.product) fail(`${at}: missing vendor/product`);
+    if (!["payg", "subscription"].includes(o.billing)) fail(`${at}: billing must be payg|subscription`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(o.verified_at || "")) fail(`${at}: verified_at must be YYYY-MM-DD`);
+    else if (today - Date.parse(o.verified_at) > 35 * 86_400_000) warn(`${at}: verified_at is older than 35 days — re-verify`);
+    const sources = JSON.stringify(o).match(/"(?:source_url|plans_source_url|codex_source_url)":"([^"]+)"/g) || [];
+    for (const s of sources) {
+      const url = s.split('":"')[1].slice(0, -1);
+      if (!OFFICIAL_DOC_HOSTS.includes(hostOf(url))) fail(`${at}: source ${url} is not an official vendor docs host`);
+    }
+    const base = o.claude_code?.env?.ANTHROPIC_BASE_URL;
+    if (!OFFICIAL_API_HOSTS.includes(hostOf(base))) fail(`${at}: ANTHROPIC_BASE_URL ${base} is not an official vendor API host`);
+    if (o.codex && !OFFICIAL_API_HOSTS.includes(hostOf(o.codex.base_url))) fail(`${at}: codex.base_url is not an official vendor API host`);
+    if (/中转|代充|代订阅|拼车|relay|resell/i.test(JSON.stringify(o))) fail(`${at}: mentions a relay/reseller (ADR-0001)`);
+  });
+  if (failures === failuresBefore) ok(`coding-plans.json: ${ids.size} offerings, all endpoints official`);
+} catch (err) {
+  fail(`coding-plans.json: ${err.message}`);
+}
+
 try {
   const b = JSON.parse(read("data/benchmark.json"));
   if (!b.source?.name || !b.source?.homepage || !b.source?.owner) {

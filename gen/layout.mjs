@@ -22,7 +22,9 @@ export const EACC_ENTITY = {
   ],
 };
 
-export function layout({ slug, title, description, h1Cmd, h1Text, jsonLd, body, headExtra = "" }) {
+// `lang` is per page: the free-tool pages are English, SaaS product pages for Chinese
+// developers (e.g. /coding-plan) are zh-CN.
+export function layout({ slug, title, description, h1Cmd, h1Text, jsonLd, body, headExtra = "", lang = "en" }) {
   const canonical = slug === "index" ? `${SITE}/` : `${SITE}/${slug}`;
   // nested slugs (pricing/gpt-5-5) load shared assets from the site root
   const depth = slug.split("/").length - 1;
@@ -40,7 +42,7 @@ export function layout({ slug, title, description, h1Cmd, h1Text, jsonLd, body, 
     .join("\n");
 
   return `<!doctype html>
-<html lang="en">
+<html lang="${esc(lang)}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
