@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI Model Release API &amp; RSS Feed — Free JSON | e-acc.ai</title>
-    <meta name="description" content="Free API and RSS feed for AI model releases: a versioned JSON timeline, a latest-frontier endpoint, and an RSS feed of frontier launches. CORS-open, no key, updated weekly." />
+    <meta name="description" content="Free API and RSS feed for AI model releases: a versioned JSON timeline, a latest-frontier endpoint, and an RSS feed of frontier launches. CORS-open, no key, dated and sourced." />
     <link rel="canonical" href="https://e-acc.ai/api" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://e-acc.ai/api" />
     <meta property="og:title" content="AI Model Release API &amp; RSS Feed — Free JSON | e-acc.ai" />
-    <meta property="og:description" content="Free API and RSS feed for AI model releases: a versioned JSON timeline, a latest-frontier endpoint, and an RSS feed of frontier launches. CORS-open, no key, updated weekly." />
+    <meta property="og:description" content="Free API and RSS feed for AI model releases: a versioned JSON timeline, a latest-frontier endpoint, and an RSS feed of frontier launches. CORS-open, no key, dated and sourced." />
     <meta property="og:image" content="https://e-acc.ai/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -54,7 +54,8 @@
         <p class="panel-lead">
           The <a href="./timeline">acceleration log</a> is available as a free RSS feed and as
           documented JSON endpoints — for changelogs, dashboards, bots, or a "days since the last
-          frontier model" badge. Updated weekly, no key required. If you use it, a link back to
+          frontier model" badge. No key required, and every file stamps its own
+          <code>updated</code> date. If you use it, a link back to
           <strong>e-acc.ai</strong> is appreciated.
         </p>
 
@@ -105,7 +106,8 @@ console.log(`${days} days since ${event.title}`);</code></pre>
           <span class="panel-name">Update cadence &amp; stability</span>
         </h2>
         <p>
-          Data is refreshed weekly. The <code>version</code> field guards the shape — it only
+          Check the <code>updated</code> field for freshness rather than assuming a fixed
+          cadence. The <code>version</code> field guards the shape — it only
           bumps on a breaking change, so you can pin against it. See the
           <a href="./timeline">timeline</a> for the human-readable view and
           <a href="./pricing">pricing</a> for model costs.

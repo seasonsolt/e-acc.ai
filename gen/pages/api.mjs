@@ -6,7 +6,8 @@ const body = `
         <p class="panel-lead">
           The <a href="./timeline">acceleration log</a> is available as a free RSS feed and as
           documented JSON endpoints — for changelogs, dashboards, bots, or a "days since the last
-          frontier model" badge. Updated weekly, no key required. If you use it, a link back to
+          frontier model" badge. No key required, and every file stamps its own
+          <code>updated</code> date. If you use it, a link back to
           <strong>e-acc.ai</strong> is appreciated.
         </p>
 
@@ -57,7 +58,8 @@ console.log(\`\${days} days since \${event.title}\`);</code></pre>
           <span class="panel-name">Update cadence &amp; stability</span>
         </h2>
         <p>
-          Data is refreshed weekly. The <code>version</code> field guards the shape — it only
+          Check the <code>updated</code> field for freshness rather than assuming a fixed
+          cadence. The <code>version</code> field guards the shape — it only
           bumps on a breaking change, so you can pin against it. See the
           <a href="./timeline">timeline</a> for the human-readable view and
           <a href="./pricing">pricing</a> for model costs.
@@ -67,7 +69,7 @@ export default {
   slug: "api",
   title: "AI Model Release API & RSS Feed — Free JSON | e-acc.ai",
   description:
-    "Free API and RSS feed for AI model releases: a versioned JSON timeline, a latest-frontier endpoint, and an RSS feed of frontier launches. CORS-open, no key, updated weekly.",
+    "Free API and RSS feed for AI model releases: a versioned JSON timeline, a latest-frontier endpoint, and an RSS feed of frontier launches. CORS-open, no key, dated and sourced.",
   h1Cmd: "$ eacc api --docs",
   h1Text: "AI model release API & RSS feed — free, versioned, CORS-open",
   keyword: "api",

@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI Model Release Timeline &amp; Days-Since Counters | e-acc.ai</title>
-    <meta name="description" content="The AI acceleration timeline: every frontier model release from ChatGPT to the Claude 5 family, plus live days-since counters. Sourced, dated, updated weekly." />
+    <meta name="description" content="The AI acceleration timeline: every frontier model release from ChatGPT to GPT-6 and Claude Opus 5.5, plus live days-since counters. Every entry sourced and dated." />
     <link rel="canonical" href="https://e-acc.ai/timeline" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://e-acc.ai/timeline" />
     <meta property="og:title" content="AI Model Release Timeline &amp; Days-Since Counters | e-acc.ai" />
-    <meta property="og:description" content="The AI acceleration timeline: every frontier model release from ChatGPT to the Claude 5 family, plus live days-since counters. Sourced, dated, updated weekly." />
+    <meta property="og:description" content="The AI acceleration timeline: every frontier model release from ChatGPT to GPT-6 and Claude Opus 5.5, plus live days-since counters. Every entry sourced and dated." />
     <meta property="og:image" content="https://e-acc.ai/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -53,7 +53,7 @@
 
         <p class="panel-lead">
           Every frontier model release, compute buildout and culture moment since the movement
-          got its name — newest first, every entry sourced. Updated weekly. The
+          got its name — newest first, every entry sourced. Last updated 2026-09-28. The
           <a href="./">live counters on the homepage</a> run on this same data, and the
           <a href="./calculator">token cost calculator</a> prices the models listed here.
         </p>
@@ -64,28 +64,76 @@
         </h2>
         <div class="metrics-strip">
             <div class="metric">
+              <span class="metric-value" data-since="2026-09-22">—</span>
+              <span class="metric-label">days since Claude Opus 5.5</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" data-since="2026-09-21">—</span>
+              <span class="metric-label">days since Grok 4.7</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" data-since="2026-09-03">—</span>
+              <span class="metric-label">days since GPT-6 Astra</span>
+            </div>
+            <div class="metric">
               <span class="metric-value" data-since="2026-09-01">—</span>
               <span class="metric-label">days since Claude Fable 5.1</span>
-            </div>
-            <div class="metric">
-              <span class="metric-value" data-since="2026-08-12">—</span>
-              <span class="metric-label">days since Grok 4.6</span>
-            </div>
-            <div class="metric">
-              <span class="metric-value" data-since="2026-08-03">—</span>
-              <span class="metric-label">days since Qwen3.8-Max</span>
-            </div>
-            <div class="metric">
-              <span class="metric-value" data-since="2026-07-16">—</span>
-              <span class="metric-label">days since Kimi K3</span>
             </div>
         </div>
 
         <h2 class="panel-title">
-          <span class="panel-cmd" aria-hidden="true">$ tail -n 28 /var/log/acceleration</span>
+          <span class="panel-cmd" aria-hidden="true">$ tail -n 36 /var/log/acceleration</span>
           <span class="panel-name">The full AI acceleration log, 2022–2026</span>
         </h2>
         <ol class="log-list">
+            <li class="log-entry" data-frontier="true">
+              <span class="log-date">2026-09-22</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://www.anthropic.com/news/claude-opus-5-5" target="_blank" rel="noopener">Claude Opus 5.5 ships</a></p>
+                <p class="log-detail">Anthropic opens its Claude 5.5 family with an Opus it says performs at the level of Fable 5.1 on most work — at $4 / $20 per Mtok, 20% below Opus 5, with cache reads down 60% to $0.20. 1M-token context by default, 128K max output.</p>
+              </div>
+            </li>
+            <li class="log-entry">
+              <span class="log-date">2026-09-22</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://developers.openai.com/api/docs/changelog" target="_blank" rel="noopener">GPT-6 Sol and Luna reach the API</a></p>
+                <p class="log-detail">The lower tiers of the GPT-6 family follow Astra into the API: Sol at $2 / $10 and Luna at $0.10 / $0.50 per Mtok for prompts up to 272K tokens. Both are reasoning models with text and image input.</p>
+              </div>
+            </li>
+            <li class="log-entry" data-frontier="true">
+              <span class="log-date">2026-09-21</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://docs.x.ai/developers/release-notes" target="_blank" rel="noopener">Grok 4.7 ships</a></p>
+                <p class="log-detail">xAI — now branded SpaceXAI in its own docs — ships its frontier model for coding, agents and knowledge work at $2 / $6 per Mtok below 200K prompt tokens and $4 / $12 above, with a 500K context window.</p>
+              </div>
+            </li>
+            <li class="log-entry">
+              <span class="log-date">2026-09-10</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://api-docs.deepseek.com/updates" target="_blank" rel="noopener">DeepSeek V4.1-Flash cuts the Flash price</a></p>
+                <p class="log-detail">The smallest model in DeepSeek's new architecture family adds native image understanding and replaces V4 Flash at a lower price: $0.30 / $1.20 per Mtok at peak, half that off-peak. Calls to the old deepseek-v4-flash name are now served by V4.1.</p>
+              </div>
+            </li>
+            <li class="log-entry" data-frontier="true">
+              <span class="log-date">2026-09-03</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://developers.openai.com/api/docs/changelog" target="_blank" rel="noopener">GPT-6 Astra ships</a></p>
+                <p class="log-detail">OpenAI releases GPT-6 Astra, 'our most capable model', built to carry complex tasks from the first request to a finished result — at $10 / $50 per Mtok, with prompts over 272K tokens billed at 2x input and 1.5x output.</p>
+              </div>
+            </li>
+            <li class="log-entry">
+              <span class="log-date">2026-09-02</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://ai.google.dev/gemini-api/docs/changelog" target="_blank" rel="noopener">Gemini 3.8 Flash goes GA</a></p>
+                <p class="log-detail">Google's most intelligent Flash yet, aimed at long-horizon software engineering and autonomous agents, ships at $0.75 / $3.75 per Mtok through 2026 — doubling to $1.50 / $7.50 on 2027-01-01.</p>
+              </div>
+            </li>
             <li class="log-entry" data-frontier="true">
               <span class="log-date">2026-09-01</span>
               <span class="log-tag log-tag--model">MODEL</span>
@@ -100,6 +148,14 @@
               <div>
                 <p class="log-title"><a href="https://www.cnbc.com/2026/08/17/nvidia-financing-open-ai-data-center-ohio.html" target="_blank" rel="noopener">Nvidia underwrites 4.25 GW for OpenAI in Ohio</a></p>
                 <p class="log-detail">Nvidia backs up to $105B of financing for OpenAI's Pike County campus — 4.25 GW in the first phase, 3.75 GW optional, online from 2028. SoftBank's SB Energy builds it and pledges 10 GW of new generation. The single largest compute financing on record.</p>
+              </div>
+            </li>
+            <li class="log-entry">
+              <span class="log-date">2026-08-13</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://ai.google.dev/gemini-api/docs/changelog" target="_blank" rel="noopener">Gemini 3.7 Flash goes GA</a></p>
+                <p class="log-detail">Google's new workhorse Flash for coding and agents lands at an introductory $0.75 / $3.75 per Mtok through 2026, rising to $1.50 / $7.50 on 2027-01-01.</p>
               </div>
             </li>
             <li class="log-entry" data-frontier="true">
@@ -132,6 +188,14 @@
               <div>
                 <p class="log-title"><a href="https://the-decoder.com/openai-announces-its-next-major-model-astra-by-dropping-ten-previously-unsolved-math-solutions/" target="_blank" rel="noopener">OpenAI unveils Astra with ten solved open problems</a></p>
                 <p class="log-detail">An internal build of OpenAI's next model family closes ten math and TCS problems open for a decade or more — for about $2,000 of inference. Altman demos the multi-agent system to senators and the White House economic team; no release date, and no decision yet on calling it GPT-6.</p>
+              </div>
+            </li>
+            <li class="log-entry" data-frontier="true">
+              <span class="log-date">2026-07-24</span>
+              <span class="log-tag log-tag--model">MODEL</span>
+              <div>
+                <p class="log-title"><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener">Claude Opus 5 ships</a></p>
+                <p class="log-detail">Anthropic's new Opus, billed as a step-change over Opus 4.8, keeps the $5 / $25 per Mtok price, with a 1M-token context window and 128K max output.</p>
               </div>
             </li>
             <li class="log-entry">

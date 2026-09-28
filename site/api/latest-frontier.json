@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updated": "2026-09-02",
+  "updated": "2026-09-28",
   "docs": "https://e-acc.ai/api",
   "event": {
-    "date": "2026-09-01",
+    "date": "2026-09-22",
     "type": "model",
     "frontier": true,
-    "title": "Claude Fable 5.1 ships",
-    "detail": "Anthropic's Mythos-class update lands: Terminal-Bench-Science more than doubles to 52.6%, cache reads drop 75% to $0.25 per Mtok, base price holds at $10 / $50. Mythos 5.1 stays gated to vetted US orgs under Project Glasswing.",
-    "source_url": "https://www.anthropic.com/claude/fable"
+    "title": "Claude Opus 5.5 ships",
+    "detail": "Anthropic opens its Claude 5.5 family with an Opus it says performs at the level of Fable 5.1 on most work — at $4 / $20 per Mtok, 20% below Opus 5, with cache reads down 60% to $0.20. 1M-token context by default, 128K max output.",
+    "source_url": "https://www.anthropic.com/news/claude-opus-5-5"
   }
 }

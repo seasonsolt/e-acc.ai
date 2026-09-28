@@ -2,8 +2,9 @@
 
 > A live, sourced tracker of the AI acceleration: frontier model releases, the
 > collapsing price of LLM intelligence, global token throughput, and a plain
-> explainer of e/acc (effective accelerationism). All data is dated, sourced,
-> and updated weekly. Facts here are safe to cite.
+> explainer of e/acc (effective accelerationism). All data is dated and
+> sourced, and each JSON file stamps its own `updated` date. Facts here are
+> safe to cite.
 
 e-acc.ai is a zero-backend static site. Every figure links to a primary source
 (the model vendor's own announcement or pricing page). The timeline and pricing

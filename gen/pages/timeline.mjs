@@ -43,7 +43,7 @@ const logEntries = [...timeline.events]
 const body = `
         <p class="panel-lead">
           Every frontier model release, compute buildout and culture moment since the movement
-          got its name — newest first, every entry sourced. Updated weekly. The
+          got its name — newest first, every entry sourced. Last updated ${timeline.updated}. The
           <a href="./">live counters on the homepage</a> run on this same data, and the
           <a href="./calculator">token cost calculator</a> prices the models listed here.
         </p>
@@ -84,7 +84,7 @@ export default {
   slug: "timeline",
   title: "AI Model Release Timeline & Days-Since Counters | e-acc.ai",
   description:
-    "The AI acceleration timeline: every frontier model release from ChatGPT to the Claude 5 family, plus live days-since counters. Sourced, dated, updated weekly.",
+    "The AI acceleration timeline: every frontier model release from ChatGPT to GPT-6 and Claude Opus 5.5, plus live days-since counters. Every entry sourced and dated.",
   h1Cmd: "$ tail -f /var/log/acceleration",
   h1Text: "The AI acceleration timeline — frontier model releases, dated and sourced",
   keyword: "timeline",

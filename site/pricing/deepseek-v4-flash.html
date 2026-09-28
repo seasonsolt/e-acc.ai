@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DeepSeek V4 Flash API Pricing 2026: Cost per Token | e-acc.ai</title>
-    <meta name="description" content="DeepSeek V4 Flash API pricing, verified 2026-09-02: $0.44 input / $1.32 output per million tokens, with worked request costs and comparisons against 16 other models." />
+    <meta name="description" content="DeepSeek V4 Flash API pricing, verified 2026-09-28: $0.3 input / $1.2 output per million tokens, with worked request costs and comparisons against 16 other models." />
     <link rel="canonical" href="https://e-acc.ai/pricing/deepseek-v4-flash" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://e-acc.ai/pricing/deepseek-v4-flash" />
     <meta property="og:title" content="DeepSeek V4 Flash API Pricing 2026: Cost per Token | e-acc.ai" />
-    <meta property="og:description" content="DeepSeek V4 Flash API pricing, verified 2026-09-02: $0.44 input / $1.32 output per million tokens, with worked request costs and comparisons against 16 other models." />
+    <meta property="og:description" content="DeepSeek V4 Flash API pricing, verified 2026-09-28: $0.3 input / $1.2 output per million tokens, with worked request costs and comparisons against 16 other models." />
     <meta property="og:image" content="https://e-acc.ai/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -78,9 +78,9 @@
 
         <p class="panel-lead">
           DeepSeek's <strong>DeepSeek V4 Flash</strong> costs
-          <strong>$0.44 per million input tokens</strong> and
-          <strong>$1.32 per million output tokens</strong> on the standard
-          API tier (verified 2026-09-02). Note: Peak-hour price since 2026-08-16; off-peak is half: $0.22 / $0.66. Cache-hit input $0.014.
+          <strong>$0.3 per million input tokens</strong> and
+          <strong>$1.2 per million output tokens</strong> on the standard
+          API tier (verified 2026-09-28). Note: Served by DeepSeek-V4.1-Flash since 2026-09-10 (model name deepseek-flash); the legacy deepseek-v4-flash name still works and bills at this price. Peak-hour price; off-peak is half: $0.15 / $0.60. Cache-hit input $0.006 peak, $0.003 off-peak.
           Compare it in the <a href="../pricing">full pricing table</a> or price your own
           prompts in the <a href="../calculator">token cost calculator</a>.
         </p>
@@ -94,8 +94,8 @@
             <tr><th scope="col">direction</th><th scope="col">$ / Mtok</th><th scope="col">$ / 1K tokens</th></tr>
           </thead>
           <tbody>
-            <tr><td>input (prompt)</td><td>$0.44</td><td>$0.00044</td></tr>
-            <tr><td>output (completion)</td><td>$1.32</td><td>$0.00132</td></tr>
+            <tr><td>input (prompt)</td><td>$0.3</td><td>$0.0003</td></tr>
+            <tr><td>output (completion)</td><td>$1.2</td><td>$0.0012</td></tr>
           </tbody>
         </table>
 
@@ -110,21 +110,21 @@
           <tbody>
             <tr>
               <td>Chat message (1K in / 500 out)</td>
-              <td>$0.00044</td>
-              <td>$0.00066</td>
-              <td class="calc-total">$0.0011</td>
+              <td>$0.0003</td>
+              <td>$0.0006</td>
+              <td class="calc-total">$0.0009</td>
             </tr>
             <tr>
               <td>Long document (100K in / 2K out)</td>
-              <td>$0.044</td>
-              <td>$0.00264</td>
-              <td class="calc-total">$0.0466</td>
+              <td>$0.03</td>
+              <td>$0.0024</td>
+              <td class="calc-total">$0.0324</td>
             </tr>
             <tr>
               <td>Agent session (500K in / 50K out)</td>
-              <td>$0.22</td>
-              <td>$0.066</td>
-              <td class="calc-total">$0.29</td>
+              <td>$0.15</td>
+              <td>$0.06</td>
+              <td class="calc-total">$0.21</td>
             </tr>
           </tbody>
         </table>
@@ -134,9 +134,9 @@
           <span class="panel-name">How DeepSeek V4 Flash pricing compares</span>
         </h2>
         <p>
-          On the same chat-message workload, DeepSeek V4 Flash costs 1.4× more than GPT-5.6 Luna (the cheapest tracked model) — capability, latency and context limits are the other side of that trade.
-          Output tokens dominate long generations: at $1.32/Mtok, a 50K-token
-          agent transcript costs $0.066 in
+          On the same chat-message workload, DeepSeek V4 Flash costs 1.1× more than GPT-5.6 Luna (the cheapest tracked model) — capability, latency and context limits are the other side of that trade.
+          Output tokens dominate long generations: at $1.2/Mtok, a 50K-token
+          agent transcript costs $0.06 in
           output alone. Official rate card:
           <a href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">DeepSeek pricing</a>.
         </p>

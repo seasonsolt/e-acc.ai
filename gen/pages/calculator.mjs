@@ -63,7 +63,7 @@ export default {
   slug: "calculator",
   title: "AI Token Cost Calculator — Price Any Prompt | e-acc.ai",
   description:
-    "Free token cost calculator: paste a prompt, get the API cost across GPT-5.5, Claude 5, Gemini 3 and DeepSeek — ranked cheapest first. No login, prices verified weekly.",
+    `Free token cost calculator: paste a prompt, get the API cost across GPT-5.5, Claude 5, Gemini 3 and DeepSeek — ranked cheapest first. No login, prices verified ${registry.updated}.`,
   h1Cmd: "$ eacc calc --tokens --usd",
   h1Text: "AI token cost calculator — price any prompt across every major model",
   keyword: "token",

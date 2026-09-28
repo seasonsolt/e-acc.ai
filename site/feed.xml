@@ -3,10 +3,58 @@
   <channel>
     <title>e/acc — the acceleration log</title>
     <link>https://e-acc.ai/timeline</link>
-    <description>Frontier model releases, compute buildouts and culture moments — the AI acceleration, dated and sourced. Updated weekly by e-acc.ai.</description>
+    <description>Frontier model releases, compute buildouts and culture moments — the AI acceleration, dated and sourced by e-acc.ai.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 02 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://e-acc.ai/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[frontier] Claude Opus 5.5 ships</title>
+      <link>https://www.anthropic.com/news/claude-opus-5-5</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-22:claude-opus-5-5-ships</guid>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Anthropic opens its Claude 5.5 family with an Opus it says performs at the level of Fable 5.1 on most work — at $4 / $20 per Mtok, 20% below Opus 5, with cache reads down 60% to $0.20. 1M-token context by default, 128K max output.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>GPT-6 Sol and Luna reach the API</title>
+      <link>https://developers.openai.com/api/docs/changelog</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-22:gpt-6-sol-and-luna-reach-the-api</guid>
+      <pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The lower tiers of the GPT-6 family follow Astra into the API: Sol at $2 / $10 and Luna at $0.10 / $0.50 per Mtok for prompts up to 272K tokens. Both are reasoning models with text and image input.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>[frontier] Grok 4.7 ships</title>
+      <link>https://docs.x.ai/developers/release-notes</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-21:grok-4-7-ships</guid>
+      <pubDate>Mon, 21 Sep 2026 00:00:00 GMT</pubDate>
+      <description>xAI — now branded SpaceXAI in its own docs — ships its frontier model for coding, agents and knowledge work at $2 / $6 per Mtok below 200K prompt tokens and $4 / $12 above, with a 500K context window.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>DeepSeek V4.1-Flash cuts the Flash price</title>
+      <link>https://api-docs.deepseek.com/updates</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-10:deepseek-v4-1-flash-cuts-the-flash-price</guid>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The smallest model in DeepSeek's new architecture family adds native image understanding and replaces V4 Flash at a lower price: $0.30 / $1.20 per Mtok at peak, half that off-peak. Calls to the old deepseek-v4-flash name are now served by V4.1.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>[frontier] GPT-6 Astra ships</title>
+      <link>https://developers.openai.com/api/docs/changelog</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-03:gpt-6-astra-ships</guid>
+      <pubDate>Thu, 03 Sep 2026 00:00:00 GMT</pubDate>
+      <description>OpenAI releases GPT-6 Astra, 'our most capable model', built to carry complex tasks from the first request to a finished result — at $10 / $50 per Mtok, with prompts over 272K tokens billed at 2x input and 1.5x output.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Gemini 3.8 Flash goes GA</title>
+      <link>https://ai.google.dev/gemini-api/docs/changelog</link>
+      <guid isPermaLink="false">e-acc.ai:2026-09-02:gemini-3-8-flash-goes-ga</guid>
+      <pubDate>Wed, 02 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Google's most intelligent Flash yet, aimed at long-horizon software engineering and autonomous agents, ships at $0.75 / $3.75 per Mtok through 2026 — doubling to $1.50 / $7.50 on 2027-01-01.</description>
+      <category>model</category>
+    </item>
     <item>
       <title>[frontier] Claude Fable 5.1 ships</title>
       <link>https://www.anthropic.com/claude/fable</link>
@@ -22,6 +70,14 @@
       <pubDate>Mon, 17 Aug 2026 00:00:00 GMT</pubDate>
       <description>Nvidia backs up to $105B of financing for OpenAI's Pike County campus — 4.25 GW in the first phase, 3.75 GW optional, online from 2028. SoftBank's SB Energy builds it and pledges 10 GW of new generation. The single largest compute financing on record.</description>
       <category>compute</category>
+    </item>
+    <item>
+      <title>Gemini 3.7 Flash goes GA</title>
+      <link>https://ai.google.dev/gemini-api/docs/changelog</link>
+      <guid isPermaLink="false">e-acc.ai:2026-08-13:gemini-3-7-flash-goes-ga</guid>
+      <pubDate>Thu, 13 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Google's new workhorse Flash for coding and agents lands at an introductory $0.75 / $3.75 per Mtok through 2026, rising to $1.50 / $7.50 on 2027-01-01.</description>
+      <category>model</category>
     </item>
     <item>
       <title>[frontier] Grok 4.6 ships</title>
@@ -53,6 +109,14 @@
       <guid isPermaLink="false">e-acc.ai:2026-08-01:openai-unveils-astra-with-ten-solved-open-problems</guid>
       <pubDate>Sat, 01 Aug 2026 00:00:00 GMT</pubDate>
       <description>An internal build of OpenAI's next model family closes ten math and TCS problems open for a decade or more — for about $2,000 of inference. Altman demos the multi-agent system to senators and the White House economic team; no release date, and no decision yet on calling it GPT-6.</description>
+      <category>model</category>
+    </item>
+    <item>
+      <title>[frontier] Claude Opus 5 ships</title>
+      <link>https://platform.claude.com/docs/en/release-notes/overview</link>
+      <guid isPermaLink="false">e-acc.ai:2026-07-24:claude-opus-5-ships</guid>
+      <pubDate>Fri, 24 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Anthropic's new Opus, billed as a step-change over Opus 4.8, keeps the $5 / $25 per Mtok price, with a 1M-token context window and 128K max output.</description>
       <category>model</category>
     </item>
     <item>

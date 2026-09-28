@@ -54,7 +54,7 @@ const feed = `<?xml version="1.0" encoding="UTF-8"?>
   <channel>
     <title>e/acc — the acceleration log</title>
     <link>${SITE}/timeline</link>
-    <description>Frontier model releases, compute buildouts and culture moments — the AI acceleration, dated and sourced. Updated weekly by e-acc.ai.</description>
+    <description>Frontier model releases, compute buildouts and culture moments — the AI acceleration, dated and sourced by e-acc.ai.</description>
     <language>en</language>
     <lastBuildDate>${rfc822(timelineData.updated)}</lastBuildDate>
     <atom:link href="${SITE}/feed.xml" rel="self" type="application/rss+xml" />
