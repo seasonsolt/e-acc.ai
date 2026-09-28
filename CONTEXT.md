@@ -1,16 +1,31 @@
 # e-acc.ai — the acceleration terminal
 
-A zero-backend static site that turns organic "e/acc" search traffic into a newsletter
-audience, using live AI-acceleration data (releases, prices, token throughput) as the draw.
+The home of an AI SaaS matrix. Traffic is found by the sister site www.e-accs.com (the
+official site, with keyword article sections); e-acc.ai turns it into paying users. The
+static pages here (prices, calculator, benchmark, timeline, API) are the matrix's free-tool
+area. Positioning and history: ADR-0005, which supersedes ADR-0002.
 
 ## Language
 
 ### Strategy
 
-**Audience asset**:
-The site's reason to exist — an owned audience (newsletter list) built from search
-traffic. All pages serve this; monetization follows the audience, never precedes it.
-_Avoid_: product, platform, SaaS
+**SaaS matrix**:
+The set of AI products hosted on e-acc.ai, each at its own path (`e-acc.ai/<product>`),
+each chosen from demand already evidenced on e-accs.com and charging from launch.
+Every product must pass ADR-0001.
+_Avoid_: platform, gateway (shelved), "the app"
+
+**Official site**:
+www.e-accs.com — presents e-acc and its products, and runs the keyword article sections.
+
+**Keyword article section**:
+A group of dated, step-by-step articles on e-accs.com, one searched keyword per page,
+that solve a paid problem and end in a link to the matching product. The Claude
+subscription guide is the proven pattern.
+_Avoid_: blog, content marketing
+
+**Audience asset** (retired):
+The old ADR-0002 thesis that the newsletter audience was the goal. Superseded by ADR-0005.
 
 **Capacity arbitrage**:
 Any scheme that monetizes access to third-party model quota (resale, lending,
@@ -56,6 +71,7 @@ _Avoid_: price list, catalog
 `metrics.json`'s price curve: the cheapest API model matching original GPT-4 over
 time. Powers the homepage log-scale chart and the "N× cheaper" headline.
 
-**Weekly update**:
-The site's entire operating cadence: edit the three data files, build, verify, push.
+**Data refresh**:
+Edit the data files when a price or release changes (at least monthly), build, verify, push.
+Each file stamps its own `updated` date; pages never promise a fixed cadence.
 Everything regenerates from data; no page is edited by hand except the homepage.

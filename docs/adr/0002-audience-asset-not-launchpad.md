@@ -1,5 +1,7 @@
 # e-acc.ai is an audience asset, not a product launchpad
 
+> **Status: Superseded by ADR-0005 (2026-09-28).** The ad-free e-acc.ai homepage survives; the rest does not.
+
 The domain earns ~2k organic visits/month on the "e/acc" cultural term. After a
 grilling session (2026-07-05) weighing "monetize the traffic" against "use it to
 launch an AI-infrastructure product" (a BYOK cost-routing gateway was the strongest

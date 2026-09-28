@@ -1,6 +1,7 @@
 # CLAUDE.md
 
-e-acc.ai — the e/acc acceleration terminal. Static site (phosphor-CRT aesthetic),
+e-acc.ai — home of an AI SaaS matrix (ADR-0005); www.e-accs.com is the official site that
+finds the traffic. The pages here are the static free-tool area: phosphor-CRT aesthetic,
 zero dependencies, generated from JSON data and deployed on Cloudflare Pages
 (build output directory `site/`, configured in `wrangler.toml`).
 
@@ -35,7 +36,9 @@ zero dependencies, generated from JSON data and deployed on Cloudflare Pages
 - The homepage (`site/index.html`) is hand-written; all other pages are generated —
   edit `gen/pages/*.mjs` templates, never the emitted `site/*.html`.
 - Never change or repurpose an already-indexed URL; new content only ever adds pages.
-- Weekly data update = edit `site/data/*.json` → build → verify → push (auto-deploys).
+- Data refresh = edit `site/data/*.json` when a price or release changes (at least monthly)
+  → build → verify → push (auto-deploys) → `node gen/indexnow.mjs`.
+- Every SaaS product must pass ADR-0001 (no quota/subscription/account resale or relays).
 - Run build + verify + test before claiming any change is done.
 
 ## Agent skills

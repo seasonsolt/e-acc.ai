@@ -7,6 +7,14 @@
 - ✅ `sc-domain:e-accs.com` 已在 GSC 验证（明天起可看到赢家页的真实查询词）。
 - ✅ `e-accs.com` 根域名原来不解析，现已 301 到 `https://www.e-accs.com`（保留路径和参数）。
 - ✅ `www.e-acc.ai` 原来 NXDOMAIN，现已 301 到 `https://e-acc.ai`。
+- ✅ e-acc.ai 数据修正已上线（§3.1 第 5 项）：DeepSeek 新价格、8 个时间线事件，17 个型号全部对照官方页核实；IndexNow 已提交。
+- ✅ e-accs.com 每页 head + 自动 sitemap 已在 preview 分支 `seo/per-page-head-sitemap`（§3.1 第 7 项），计划约 10-05 合并。
+
+> **修订（2026-09-28，站长决定，见 `docs/adr/0005-official-site-and-saas-matrix.md`）**
+> - **e-accs.com = 官网 + 引流**：首页介绍 e-acc 和产品；下面是「关键词文章分区」，按赢家页的打法做搜索流量，每个分区的文章都链到对应产品。§2.1、§3、§4 的 e-accs.com 工作照常执行，文章分区对应的产品链接改为指向 e-acc.ai。
+> - **e-acc.ai = AI SaaS 矩阵**：产品放在 `e-acc.ai/<产品>` 路径下，现有已收录页面保留原 URL，作为免费工具区。这取代 §2.3 的「停放」定位，也取代 §6 里「12-27 挂牌出售」这一闸门。
+> - **ADR**：以 ADR-0005 为准，它取代了 §2.4 表格里的 0005/0006 草案。0006（返佣与赞助政策）仍然需要写。ADR-0001 不变，适用于矩阵里的每个产品。
+> - **第一个产品**：国产模型 Coding Plan 选择器 + 配置生成器，见 `docs/products/coding-plan.md`。原计划的 ¥29 配置包并入这个产品。
 
 ---
 

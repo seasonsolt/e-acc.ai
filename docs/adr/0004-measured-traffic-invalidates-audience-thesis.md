@@ -1,5 +1,7 @@
 # Measured traffic is ~140 visits/month, not ~2k — the audience thesis is dead
 
+> **Status: Partly superseded by ADR-0005 (2026-09-28).** The measurements stand; the growth-investment stance is replaced by the official-site / SaaS-matrix split.
+
 On 2026-07-07 we reconciled two Cloudflare measurement systems that had both
 been running for ~4 months (we had wrongly assumed no analytics existed):
 

@@ -15,3 +15,5 @@ to third-party model capacity, in any variant. A real product that *consumes* to
 from our own commercial account and charges for genuine added value remains permitted.
 If a future idea smells like "I have access/quota, let me arbitrage it" — reread this
 ADR before writing any code.
+
+This binds every product in the AI SaaS matrix (ADR-0005).
