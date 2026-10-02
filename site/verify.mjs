@@ -162,7 +162,7 @@ const pageFiles = readdirSync(root, { recursive: true })
   .filter((f) => f !== "404.html"); // noindex error page — no canonical, not in sitemap
 const pages = new Map(pageFiles.map((f) => [f, read(f)]));
 const keywordFor = (file) => {
-  if (file === "index.html" || file === "what-is-eacc.html") return "e/acc";
+  if (file === "terminal.html" || file === "what-is-eacc.html") return "e/acc";
   if (file === "eacc-vs-dacc.html") return "d/acc";
   if (file === "eacc-glossary.html") return "glossary";
   if (file === "timeline.html") return "timeline";
@@ -207,7 +207,7 @@ for (const [file, html] of pages) {
     warn(`${at}: no target keyword declared in verify.mjs KEYWORDS`);
   }
 
-  const expectedCanonical = file === "index.html" ? `${SITE}/` : `${SITE}/${at}`;
+  const expectedCanonical = `${SITE}/${at}`;
   const canonical = (html.match(/rel="canonical" href="([^"]*)"/) || [])[1];
   if (canonical !== expectedCanonical) {
     fail(`${at}: canonical "${canonical}" ≠ expected "${expectedCanonical}"`);
@@ -281,7 +281,9 @@ for (const [file, html] of pages) {
       }
       continue;
     }
-    const targetFile = rel === "" ? (hashAt === 0 ? file : "index.html") : `${rel}.html`;
+    // The site root is the news site, served beside this build by the edge Worker (ADR-0006).
+    if (rel === "" && hashAt !== 0) continue;
+    const targetFile = rel === "" ? file : `${rel}.html`;
     if (!pages.has(targetFile)) {
       fail(`${file}: link "${href}" → ${targetFile} does not exist`);
       continue;
@@ -298,7 +300,7 @@ try {
   const sitemap = read("sitemap.xml");
   const locs = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
   const expected = new Set(
-    [...pages.keys()].map((f) => (f === "index.html" ? `${SITE}/` : `${SITE}/${f.replace(".html", "")}`))
+    [...pages.keys()].map((f) => `${SITE}/${f.replace(".html", "")}`)
   );
   for (const url of expected) if (!locs.has(url)) fail(`sitemap: missing ${url}`);
   for (const url of locs) if (!expected.has(url)) fail(`sitemap: lists ${url} which is not an emitted page`);

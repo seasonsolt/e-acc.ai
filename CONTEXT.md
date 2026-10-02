@@ -45,13 +45,13 @@ _Avoid_: keyword stuffing
 ### Site concepts
 
 **Altar counter**:
-The homepage's live estimate of tokens consumed worldwide since the visitor arrived —
+The terminal page's (/terminal, the former homepage) live estimate of tokens consumed worldwide since the visitor arrived —
 the site's signature element, driven by the token rate in the metrics data.
 _Avoid_: token ticker, burn meter
 
 **Acceleration log**:
 The curated, sourced timeline of AI events (model / compute / policy / culture) in
-`timeline.json`. The homepage log and /timeline page are views of it.
+`timeline.json`. The terminal page's log and /timeline page are views of it.
 _Avoid_: news feed, changelog
 
 **Frontier event**:
@@ -69,9 +69,9 @@ _Avoid_: price list, catalog
 
 **Price-of-intelligence series**:
 `metrics.json`'s price curve: the cheapest API model matching original GPT-4 over
-time. Powers the homepage log-scale chart and the "N× cheaper" headline.
+time. Powers the terminal page's log-scale chart and the "N× cheaper" headline.
 
 **Data refresh**:
 Edit the data files when a price or release changes (at least monthly), build, verify, push.
 Each file stamps its own `updated` date; pages never promise a fixed cadence.
-Everything regenerates from data; no page is edited by hand except the homepage.
+Everything regenerates from data; no page is edited by hand except the terminal page (the former homepage; the site root is the news site, ADR-0006).

@@ -44,7 +44,7 @@ const body = `
         <p class="panel-lead">
           Every frontier model release, compute buildout and culture moment since the movement
           got its name — newest first, every entry sourced. Last updated ${timeline.updated}. The
-          <a href="./">live counters on the homepage</a> run on this same data, and the
+          <a href="./terminal">live counters on the terminal page</a> run on this same data, and the
           <a href="./calculator">token cost calculator</a> prices the models listed here.
         </p>
 

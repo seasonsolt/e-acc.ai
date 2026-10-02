@@ -1,5 +1,5 @@
 // Shared HTML shell for generated inner pages.
-// The homepage (site/index.html) keeps its own hand-written shell; every
+// The terminal page (site/terminal.html) keeps its own hand-written shell; every
 // other page is wrapped by layout() so head rules and chrome stay uniform.
 
 const SITE = "https://e-acc.ai";
@@ -7,7 +7,7 @@ const SITE = "https://e-acc.ai";
 import { navLinks, footerLinks } from "./nav.mjs";
 
 // The entity this site is about. Attached as `about` on the concept pages and
-// mirrored by hand in site/index.html, so Google can tie the spellings people
+// mirrored by hand in site/terminal.html, so Google can tie the spellings people
 // actually type — e/acc, eacc, e-acc — to one Wikidata subject instead of
 // guessing. "eacc" alone is ambiguous (Kenya's anti-corruption commission owns
 // that SERP); the sameAs links are what disambiguate us.

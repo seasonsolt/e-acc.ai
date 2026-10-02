@@ -1,6 +1,7 @@
 // Static site generator. Run: node gen/build.mjs
 // Reads page modules + data, emits site/<slug>.html and site/sitemap.xml.
-// The homepage (site/index.html) is hand-written and NOT touched here.
+// The terminal page (site/terminal.html, the former homepage) is hand-written and NOT touched here;
+// the site root is the news site, routed beside these pages by edge/ (ADR-0006).
 import { writeFileSync, readFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -100,14 +101,14 @@ writeFileSync(
 );
 console.log("  built api/benchmark.json");
 
-// sitemap covers the homepage plus every generated page; lastmod tracks the
+// sitemap covers the terminal page plus every generated page; lastmod tracks the
 // newest of the two data files so weekly data pushes refresh it automatically
 const dataDates = ["timeline.json", "metrics.json", "models.json"].map(
   (f) => JSON.parse(readFileSync(join(siteDir, "data", f), "utf8")).updated
 );
 const lastmod = dataDates.sort().at(-1);
 
-const urls = ["", ...pages.map((p) => p.slug)];
+const urls = ["terminal", ...pages.map((p) => p.slug)];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
