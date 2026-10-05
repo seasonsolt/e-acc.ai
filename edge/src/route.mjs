@@ -6,7 +6,7 @@
 /** The news site's page routes (apps/web/app/routes.ts), each with its subpaths. */
 const NEWS_SECTIONS = [
   "all", "search-busy", "items", "hot", "story", "daily", "weekly", "monthly", "topics", "about", "terms",
-  "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "admin", "subscribe", "codex-reset",
+  "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "admin", "subscribe", "codex-reset", "chronicle",
   // build assets, media, feeds and the other api-owned prefixes (packages/contracts/src/http-policy.ts)
   "assets", "media", "feed", "sitemaps", "model-providers", "leaderboard-sources", "og", "contact", ".well-known",
 ];
