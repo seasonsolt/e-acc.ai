@@ -8,6 +8,8 @@ import { routeOf } from "../edge/src/route.mjs";
 
 const SITE_DIR = join(import.meta.dirname, "..", "site");
 const MERGED = ["/sitemap.xml", "/robots.txt", "/llms.txt"];
+/** Generated here still (the rollback copy), served by the news site. */
+const MOVED = ["/what-is-eacc", "/eacc-vs-dacc", "/eacc-glossary"];
 
 test("every file of the static site is still served by Pages", () => {
   const files = readdirSync(SITE_DIR, { recursive: true, withFileTypes: true })
@@ -17,8 +19,8 @@ test("every file of the static site is still served by Pages", () => {
   assert.ok(files.length > 40, `walked the site (${files.length} files)`);
   for (const path of files) {
     assert.equal(routeOf(path), "pages", path);
-    // Pages serves page.html as /page too.
-    if (path.endsWith(".html")) assert.equal(routeOf(path.slice(0, -5)), "pages", path.slice(0, -5));
+    // Pages serves page.html as /page too (and redirects page.html there).
+    if (path.endsWith(".html") && !MOVED.includes(path.slice(0, -5))) assert.equal(routeOf(path.slice(0, -5)), "pages", path.slice(0, -5));
   }
 });
 
@@ -26,6 +28,11 @@ test("every sitemap URL is still served by Pages", () => {
   const locs = [...readFileSync(join(SITE_DIR, "sitemap.xml"), "utf8").matchAll(/<loc>https:\/\/e-acc\.ai([^<]*)<\/loc>/g)].map((m) => m[1]);
   assert.ok(locs.includes("/terminal"), "the former homepage moved to /terminal");
   for (const path of locs) assert.equal(routeOf(path), "pages", path);
+  for (const path of MOVED) assert.ok(!locs.includes(path), `${path} is listed by the news site's sitemap`);
+});
+
+test("the e/acc concept pages go to the news site at their original addresses", () => {
+  for (const path of [...MOVED, "/what-is-eacc/", "/what-is-eacc.data"]) assert.equal(routeOf(path), "news", path);
 });
 
 test("the root and the news site's own paths go to the news site", () => {

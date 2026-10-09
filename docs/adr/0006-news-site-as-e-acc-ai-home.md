@@ -32,3 +32,9 @@ indexed URL is never changed or repurposed still holds.
 - The news site's paths are a list in `edge/src/route.mjs`; a new top-level route there needs adding.
 - Deploy the Worker from `edge/` with `cf deploy --secrets-file <file with EDGE_SECRET>`; the same secret
   is `EDGE_SECRET` in the news site's `.env`.
+
+**Amendment (2026-10-09):** the e/acc concept pages `/what-is-eacc`, `/eacc-vs-dacc` and `/eacc-glossary`
+moved to the news site with their URLs, titles, English text and structured data unchanged
+(news-e-accs `industry/concepts.ts`). Their generators and HTML stay here as the rollback copy, out of
+this site's sitemap; removing the three names from `NEWS_SECTIONS` and redeploying the Worker restores
+them. Delete them here once the pages hold their rankings on the news site.

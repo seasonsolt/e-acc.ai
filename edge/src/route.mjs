@@ -7,6 +7,9 @@
 const NEWS_SECTIONS = [
   "all", "search-busy", "items", "hot", "story", "daily", "weekly", "monthly", "topics", "about", "terms",
   "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "admin", "subscribe", "codex-reset", "chronicle", "products",
+  // The e/acc concept pages, moved to the news site with their URLs and text (news-e-accs industry/concepts.ts).
+  // Their generated HTML stays on Pages, out of the sitemap, so taking these three out again rolls back.
+  "what-is-eacc", "eacc-vs-dacc", "eacc-glossary",
   // build assets, media, feeds and the other api-owned prefixes (packages/contracts/src/http-policy.ts)
   "assets", "media", "feed", "sitemaps", "model-providers", "leaderboard-sources", "og", "contact", ".well-known",
 ];

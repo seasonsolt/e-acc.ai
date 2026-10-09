@@ -5,6 +5,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { routeOf } from "../edge/src/route.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const read = (name) => readFileSync(join(root, name), "utf8");
@@ -299,8 +300,9 @@ ok("links: every internal href and anchor resolves");
 try {
   const sitemap = read("sitemap.xml");
   const locs = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+  // Only pages Pages still serves: the ones the edge routes to the news site are listed there.
   const expected = new Set(
-    [...pages.keys()].map((f) => `${SITE}/${f.replace(".html", "")}`)
+    [...pages.keys()].map((f) => `/${f.replace(".html", "")}`).filter((p) => routeOf(p) === "pages").map((p) => `${SITE}${p}`)
   );
   for (const url of expected) if (!locs.has(url)) fail(`sitemap: missing ${url}`);
   for (const url of locs) if (!expected.has(url)) fail(`sitemap: lists ${url} which is not an emitted page`);

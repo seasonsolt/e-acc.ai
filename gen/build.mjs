@@ -6,6 +6,7 @@ import { writeFileSync, readFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { layout } from "./layout.mjs";
+import { routeOf } from "../edge/src/route.mjs";
 
 import whatIsEacc from "./pages/what-is-eacc.mjs";
 import eaccVsDacc from "./pages/eacc-vs-dacc.mjs";
@@ -108,7 +109,9 @@ const dataDates = ["timeline.json", "metrics.json", "models.json"].map(
 );
 const lastmod = dataDates.sort().at(-1);
 
-const urls = ["terminal", ...pages.map((p) => p.slug)];
+// Pages the edge now sends to the news site keep their HTML here (the rollback copy) but are listed by
+// the news site's sitemap, not this one.
+const urls = ["terminal", ...pages.map((p) => p.slug)].filter((slug) => routeOf(`/${slug}`) === "pages");
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
