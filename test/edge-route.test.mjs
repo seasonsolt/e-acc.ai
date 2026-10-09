@@ -31,7 +31,7 @@ test("every sitemap URL is still served by Pages", () => {
 test("the root and the news site's own paths go to the news site", () => {
   for (const path of [
     "/", "/daily", "/daily/2026-10-01", "/items/abc123", "/hot", "/topics/openai", "/subscribe", "/admin/login",
-    "/chronicle", "/chronicle.data",
+    "/chronicle", "/chronicle.data", "/products", "/products/", "/products.data",
     "/assets/entry-123.js", "/media/hero-16x9.mp4", "/media/fonts/InstrumentSerif-Italic.woff2",
     "/_root.data", "/daily.data", "/__manifest", "/api/site/timeline", "/api/v1/items", "/api/mcp",
     "/api/site/newsletter/subscribe", "/feed/picks.xml", "/feed/all.xml", "/og/pages/about.png", "/favicon.ico",
