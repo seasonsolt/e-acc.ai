@@ -25,10 +25,18 @@ const PAGES_API = new Set(["/api/benchmark.json", "/api/latest-frontier.json", "
 /** Built by the Worker from both origins. */
 const MERGED = new Set(["/sitemap.xml", "/sitemap-tools.xml", "/sitemap-news.xml", "/robots.txt", "/llms.txt"]);
 
+/** Chinese editions belong to news; assets, APIs, tools and English-only concepts keep their origins. */
+const CHINESE_SECTIONS = new Set([
+  "all", "search-busy", "items", "hot", "story", "daily", "weekly", "monthly", "topics", "about",
+  "terms", "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "subscribe",
+  "codex-reset", "chronicle", "products",
+]);
+
 /** @returns {"news" | "pages" | "merged"} */
 export function routeOf(pathname) {
   if (MERGED.has(pathname)) return "merged";
   if (NEWS_EXACT.has(pathname)) return "news";
+  if (pathname === "/zh" || pathname === "/zh/" || (pathname.startsWith("/zh/") && CHINESE_SECTIONS.has(pathname.split("/")[2]))) return "news";
   // React Router's single-fetch data requests: /_root.data, /daily.data, /items/x.data …
   if (pathname.endsWith(".data")) return "news";
   if (pathname.startsWith("/api/")) return PAGES_API.has(pathname) ? "pages" : "news";
