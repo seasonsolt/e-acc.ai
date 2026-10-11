@@ -26,7 +26,13 @@ function toNews(request, env, pathname = null) {
 async function cachedNews(request, env, ctx) {
   if (!isCacheEligible(request)) return toNews(request, env);
   const url = new URL(request.url);
-  const key = new Request(`${SITE}${url.pathname}${url.search}`, { method: "GET" });
+  let search = url.search;
+  if (url.pathname.endsWith(".data")) {
+    // Public navigation returns all matched loaders; remove _routes without re-encoding the other parameters.
+    const query = search.slice(1).split("&").filter((part) => !new URLSearchParams(`?${part}`).has("_routes")).join("&");
+    search = query ? `?${query}` : "";
+  }
+  const key = new Request(`${SITE}${url.pathname}${search}`, { method: "GET" });
   const cache = caches.default;
   const cached = await cache.match(key);
   const response = cached ?? await toNews(request, env);

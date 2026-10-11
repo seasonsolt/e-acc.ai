@@ -32,29 +32,45 @@ function mockEdge(t, respond = () => new Response("news", { headers: PUBLIC })) 
   return { matches, puts, pending, upstream, ctx: { waitUntil(promise) { pending.push(promise); } } };
 }
 
-test("GET and HEAD public news APIs and images are eligible even with cookies", () => {
+test("GET and HEAD public news APIs, images, pages and Router data are eligible even with cookies", () => {
   for (const method of ["GET", "HEAD"]) {
-    for (const path of ["/api/site/hot?lang=en", "/api/img-proxy?u=https%3A%2F%2Fexample.com%2Favatar&sig=a%2Bb", "/og/site.png"]) {
+    for (const path of [
+      "/api/site/hot?lang=en", "/api/img-proxy?u=https%3A%2F%2Fexample.com%2Favatar&sig=a%2Bb", "/og/site.png",
+      "/", "/hot", "/zh/hot", "/hot.data?_routes=routes/hot", "/_root.data", "/zh/hot.data",
+      "/items/abc", "/leaderboard/category/coding", "/chronicle?at=2020-01-01",
+    ]) {
       assert.equal(isCacheEligible(new Request(`${SITE}${path}`, { method, headers: { cookie: "session=admin" } })), true, `${method} ${path}`);
     }
   }
 });
 
-test("other paths, methods and Authorization bypass the cache", () => {
-  for (const path of ["/", "/hot", "/hot.data", "/api/admin/x", "/api/ingest/x", "/api/mcp", "/feed/picks.xml", "/api/timeline.json", "/api/site", "/og"]) {
-    assert.equal(isCacheEligible(new Request(`${SITE}${path}`)), false, path);
+test("excluded news paths, Pages, merged files, other methods and Authorization bypass the cache", () => {
+  for (const path of [
+    "/admin", "/admin/", "/admin.data", "/admin/runs.data", "/zh/admin", "/zh/admin.data", "/zh/admin/runs.data",
+    "/api/admin/x", "/api/ingest/x", "/api/mcp", "/api/mcp.data", "/api/timeline.json", "/api/site",
+    "/feed", "/feed/picks.xml", "/feed/picks.data", "/rss", "/rss.xml", "/rss.xml.data", "/rss-other.data", "/atom.xml", "/atom.xml.data",
+    "/assets", "/assets/x.js", "/assets/x.data", "/media", "/media/a.webp", "/media/a.data", "/sitemaps", "/sitemaps/x.xml", "/sitemaps/x.data",
+    "/__manifest", "/__manifest.data", "/.well-known/security.txt", "/.well-known/x.data", "/contact", "/contact.data", "/contact/x.data", "/contact-extra.data",
+    "/benchmark", "/pricing", "/sitemap.xml", "/robots.txt", "/llms.txt",
+  ]) {
+    for (const method of ["GET", "HEAD"]) {
+      assert.equal(isCacheEligible(new Request(`${SITE}${path}`, { method })), false, `${method} ${path}`);
+    }
   }
-  for (const method of ["POST", "PUT", "DELETE", "OPTIONS"]) {
-    assert.equal(isCacheEligible(new Request(`${SITE}/api/site/hot`, { method })), false, method);
-  }
-  for (const authorization of ["Bearer token", ""]) {
-    assert.equal(isCacheEligible(new Request(`${SITE}/api/site/hot`, { headers: { authorization } })), false);
+  for (const path of ["/api/site/hot", "/hot", "/hot.data"]) {
+    for (const method of ["POST", "PUT", "DELETE", "OPTIONS"]) {
+      assert.equal(isCacheEligible(new Request(`${SITE}${path}`, { method })), false, `${method} ${path}`);
+    }
+    for (const authorization of ["Bearer token", ""]) {
+      assert.equal(isCacheEligible(new Request(`${SITE}${path}`, { headers: { authorization } })), false, path);
+    }
   }
 });
 
 test("only explicit public shared TTLs and Accept-Encoding variation can be stored", () => {
   for (const control of [
     "public, max-age=30, s-maxage=30",
+    "public, max-age=120, s-maxage=120, must-revalidate",
     PUBLIC["cache-control"],
     "public, max-age=246103, s-maxage=246103",
     "public, max-age=0, s-maxage=30",
@@ -82,7 +98,7 @@ test("missing, forbidden, zero, malformed or ambiguous shared TTLs are not store
 });
 
 test("non-200, Set-Cookie and variation beyond Accept-Encoding are not stored", () => {
-  for (const status of [201, 206, 302, 304, 404, 500]) {
+  for (const status of [201, 206, 301, 302, 304, 307, 308, 404, 500]) {
     assert.equal(isCacheable(new Response(null, { status, headers: PUBLIC })), false, String(status));
   }
   for (const cookie of ["session=admin", ""]) {
@@ -150,6 +166,43 @@ test("query values, ordering and escaping keep distinct cache entries", async (t
   assert.equal(edge.upstream.mock.callCount(), paths.length);
 });
 
+test("Router data ignores _routes in keys, preserving other parameters and origin requests", async (t) => {
+  const edge = mockEdge(t);
+  const paths = [
+    ["/hot.data?_routes=a&at=1", "/hot.data?at=1"],
+    ["/hot.data?at=1&_routes=b", "/hot.data?at=1"],
+    ["/hot.data?at=1", "/hot.data?at=1"],
+    ["/hot.data?at=2", "/hot.data?at=2"],
+    ["/hot.data?_routes=a&_routes=b", "/hot.data"],
+    ["/hot.data?%5Froutes=c", "/hot.data"],
+    ["/hot.data", "/hot.data"],
+    ["/hot.data??_routes=keep&_routes=drop&at=1", "/hot.data??_routes=keep&at=1"],
+    ["/hot.data?_routes=x&lang=en&at=1&sig=a%2Bb+%2F&at=2", "/hot.data?lang=en&at=1&sig=a%2Bb+%2F&at=2"],
+    ["/hot.data?lang=en&at=1&_routes=y&sig=a%2Bb+%2F&at=2", "/hot.data?lang=en&at=1&sig=a%2Bb+%2F&at=2"],
+    ["/hot.data?at=1&lang=en&sig=a%2Bb+%2F&at=2&_routes=x", "/hot.data?at=1&lang=en&sig=a%2Bb+%2F&at=2"],
+    ["/hot.data?lang=en&at=1&sig=a%2bb+%2F&at=2&_routes=x", "/hot.data?lang=en&at=1&sig=a%2bb+%2F&at=2"],
+    ["/hot.data?lang=en&at=1&sig=a%2Bb%20%2F&at=2&_routes=x", "/hot.data?lang=en&at=1&sig=a%2Bb%20%2F&at=2"],
+    ["/hot?_routes=a&at=1", "/hot?_routes=a&at=1"],
+    ["/hot?at=1&_routes=b", "/hot?at=1&_routes=b"],
+    ["/hot?at=1", "/hot?at=1"],
+  ];
+  const stored = new Set();
+  for (const [path, key] of paths) {
+    const hit = stored.has(key);
+    const response = await worker.fetch(new Request(`${SITE}${path}`), ENV, edge.ctx);
+    assert.equal(response.headers.get("x-eacc-edge-cache"), hit ? "HIT" : "MISS", path);
+    assert.equal(await response.text(), "news");
+    assert.equal(edge.matches.at(-1).url, `${SITE}${key}`, path);
+    if (!hit) {
+      assert.equal(edge.upstream.mock.calls.at(-1).arguments[0].href, `${ENV.NEWS_ORIGIN}${path}`, path);
+      stored.add(key);
+    }
+    await Promise.all(edge.pending);
+  }
+  assert.equal(edge.upstream.mock.callCount(), stored.size);
+  assert.deepEqual(edge.puts.map(({ key }) => key.url), [...stored].map((path) => `${SITE}${path}`));
+});
+
 test("a cold HEAD stays a HEAD at the origin and cannot poison the shared GET entry", async (t) => {
   const edge = mockEdge(t, (_, init) => new Response(init.method === "HEAD" ? null : "news", { headers: { ...PUBLIC, "content-length": "4" } }));
   const url = `${SITE}/og/site.png`;
@@ -175,38 +228,43 @@ test("a cold HEAD stays a HEAD at the origin and cannot poison the shared GET en
   assert.ok(edge.matches.every((key) => key.method === "GET"));
 });
 
-test("eligible but uncacheable responses remain MISSes with their original status and headers", async (t) => {
+test("eligible but uncacheable API, HTML and data responses remain MISSes with their original status and headers", async (t) => {
   const edge = mockEdge(t, (url) => {
     const kind = url.searchParams.get("kind");
     if (kind === "redirect") return new Response(null, { status: 302, headers: { ...PUBLIC, location: "/hot" } });
+    if (kind === "permanent") return new Response(null, { status: 308, headers: { ...PUBLIC, location: "/hot" } });
     if (kind === "missing") return new Response("missing", { status: 404, headers: PUBLIC });
     const headers = { ...PUBLIC };
     if (kind === "cookie") headers["set-cookie"] = "session=admin";
     if (kind === "vary") headers.vary = "Accept-Language";
     if (kind === "ttl") headers["cache-control"] = "public, max-age=60";
-    if (kind === "private") headers["cache-control"] += ", private";
+    if (kind === "private") headers["cache-control"] = "private, no-store";
     return new Response("news", { headers });
   });
-  for (const kind of ["redirect", "missing", "cookie", "vary", "ttl", "private"]) {
-    for (let i = 0; i < 2; i++) {
-      const response = await worker.fetch(new Request(`${SITE}/api/site/hot?kind=${kind}`), ENV, edge.ctx);
-      assert.equal(response.headers.get("x-eacc-edge-cache"), "MISS", kind);
-      assert.equal(response.status, kind === "redirect" ? 302 : kind === "missing" ? 404 : 200);
-      if (kind === "redirect") assert.equal(response.headers.get("location"), "/hot");
-      if (kind === "cookie") assert.equal(response.headers.get("set-cookie"), "session=admin");
+  for (const path of ["/api/site/hot", "/hot", "/hot.data"]) {
+    for (const kind of ["redirect", "permanent", "missing", "cookie", "vary", "ttl", "private"]) {
+      for (let i = 0; i < 2; i++) {
+        const response = await worker.fetch(new Request(`${SITE}${path}?kind=${kind}`), ENV, edge.ctx);
+        assert.equal(response.headers.get("x-eacc-edge-cache"), "MISS", `${path} ${kind}`);
+        assert.equal(response.status, kind === "redirect" ? 302 : kind === "permanent" ? 308 : kind === "missing" ? 404 : 200);
+        if (kind === "redirect" || kind === "permanent") assert.equal(response.headers.get("location"), "/hot");
+        if (kind === "cookie") assert.equal(response.headers.get("set-cookie"), "session=admin");
+        if (kind === "private") assert.equal(response.headers.get("cache-control"), "private, no-store");
+      }
     }
   }
-  assert.equal(edge.upstream.mock.callCount(), 12);
+  assert.equal(edge.upstream.mock.callCount(), 42);
   assert.equal(edge.puts.length, 0);
   assert.equal(edge.pending.length, 0);
 });
 
-test("HTML, data, private APIs, POSTs and Authorization never touch the cache", async (t) => {
+test("admin, private APIs, non-page endpoints, POSTs and Authorization never touch the cache", async (t) => {
   const edge = mockEdge(t);
   const requests = [
-    ...["/", "/hot", "/hot.data", "/api/admin/x", "/api/ingest/x", "/api/mcp", "/feed/picks.xml"].map((path) => new Request(`${SITE}${path}`)),
+    ...["/admin", "/admin/runs.data", "/zh/admin/runs.data", "/api/admin/x", "/api/ingest/x", "/api/mcp", "/feed/picks.xml", "/rss.xml", "/assets/x.js", "/media/a.webp", "/sitemaps/x.xml", "/__manifest", "/contact"].map((path) => new Request(`${SITE}${path}`)),
+    new Request(`${SITE}/hot`, { method: "POST", body: "payload" }),
     new Request(`${SITE}/api/site/hot`, { method: "POST", body: "payload" }),
-    new Request(`${SITE}/api/site/hot`, { headers: { authorization: "Bearer token" } }),
+    new Request(`${SITE}/hot`, { headers: { authorization: "Bearer token" } }),
   ];
   for (const request of requests) {
     const response = await worker.fetch(request, ENV, edge.ctx);
@@ -217,9 +275,11 @@ test("HTML, data, private APIs, POSTs and Authorization never touch the cache", 
   assert.equal(edge.matches.length, 0);
   assert.equal(edge.puts.length, 0);
   assert.equal(edge.pending.length, 0);
-  const post = edge.upstream.mock.calls[requests.length - 2].arguments[1];
-  assert.equal(post.method, "POST");
-  assert.equal(post.body, requests[requests.length - 2].body);
+  for (const index of [requests.length - 3, requests.length - 2]) {
+    const post = edge.upstream.mock.calls[index].arguments[1];
+    assert.equal(post.method, "POST");
+    assert.equal(post.body, requests[index].body);
+  }
   assert.equal(edge.upstream.mock.calls.at(-1).arguments[1].headers.get("authorization"), "Bearer token");
 });
 
@@ -236,6 +296,33 @@ test("Pages and merged files keep their existing routing without cache access", 
   assert.equal(edge.matches.length, 0);
   assert.equal(edge.puts.length, 0);
   assert.equal(edge.pending.length, 0);
+});
+
+test("public HTML with must-revalidate is a MISS then a HIT with the origin's Cache-Control restored", async (t) => {
+  const control = "public, max-age=120, s-maxage=120, must-revalidate";
+  const headers = { "cache-control": control, "content-type": "text/html; charset=utf-8", vary: "Accept-Encoding" };
+  const edge = mockEdge(t, () => new Response("<h1>Hot</h1>", { headers }));
+  const url = `${SITE}/hot`;
+  const first = await worker.fetch(new Request(url, { headers: { cookie: "session=admin" } }), ENV, edge.ctx);
+  assert.equal(first.headers.get("x-eacc-edge-cache"), "MISS");
+  assert.equal(first.headers.get("cache-control"), control);
+  assert.equal(await first.text(), "<h1>Hot</h1>");
+  await Promise.all(edge.pending);
+  assert.equal(edge.puts.length, 1);
+  // Cloudflare's Browser Cache TTL raises max-age on the cached copy.
+  const stored = edge.puts[0].response;
+  stored.headers.set("cache-control", "public, max-age=14400, s-maxage=120, must-revalidate");
+  await globalThis.caches.default.put(edge.puts[0].key, stored);
+  const hit = await worker.fetch(new Request(url, { headers: { cookie: "session=visitor", "accept-language": "zh" } }), ENV, edge.ctx);
+  assert.equal(hit.headers.get("x-eacc-edge-cache"), "HIT");
+  assert.equal(await hit.text(), "<h1>Hot</h1>");
+  for (const [name, value] of Object.entries(headers)) assert.equal(hit.headers.get(name), value);
+  assert.equal(hit.headers.get("x-eacc-origin-cache-control"), null);
+  const head = await worker.fetch(new Request(url, { method: "HEAD" }), ENV, edge.ctx);
+  assert.equal(head.headers.get("x-eacc-edge-cache"), "HIT");
+  assert.equal(head.headers.get("cache-control"), control);
+  assert.equal(head.body, null);
+  assert.equal(edge.upstream.mock.callCount(), 1);
 });
 
 test("a HIT restores the origin's Cache-Control after the zone rewrites max-age", async (t) => {
