@@ -2,8 +2,10 @@
 // (route.mjs decides), and builds the few files both have. Pages is reached with fetch(request): a
 // Worker's subrequest to its own hostname goes to the origin behind the route, not back to the Worker.
 import { routeOf } from "./route.mjs";
+import { isCacheEligible, isCacheable } from "./cache.mjs";
 
 const SITE = "https://e-acc.ai";
+const ORIGIN_CACHE_CONTROL = "x-eacc-origin-cache-control";
 
 /** The news site, which serves only requests carrying the edge secret (apps/web/server.ts). */
 function toNews(request, env, pathname = null) {
@@ -19,6 +21,28 @@ function toNews(request, env, pathname = null) {
     body: request.method === "GET" || request.method === "HEAD" ? undefined : request.body,
     redirect: "manual",
   });
+}
+
+async function cachedNews(request, env, ctx) {
+  if (!isCacheEligible(request)) return toNews(request, env);
+  const url = new URL(request.url);
+  const key = new Request(`${SITE}${url.pathname}${url.search}`, { method: "GET" });
+  const cache = caches.default;
+  const cached = await cache.match(key);
+  const response = cached ?? await toNews(request, env);
+  // A HEAD miss has no body and must not populate the shared GET entry.
+  if (!cached && request.method === "GET" && isCacheable(response)) {
+    // The zone's Browser Cache TTL rewrites max-age on cached copies; keep the origin's header to restore on hits.
+    const stored = new Response(response.clone().body, response);
+    stored.headers.set(ORIGIN_CACHE_CONTROL, response.headers.get("cache-control"));
+    ctx.waitUntil(cache.put(key, stored));
+  }
+  const result = new Response(request.method === "HEAD" ? null : response.body, response);
+  const original = cached?.headers.get(ORIGIN_CACHE_CONTROL);
+  if (original) result.headers.set("cache-control", original);
+  result.headers.delete(ORIGIN_CACHE_CONTROL);
+  result.headers.set("x-eacc-edge-cache", cached ? "HIT" : "MISS");
+  return result;
 }
 
 function toPages(request, pathname = null) {
@@ -65,10 +89,10 @@ async function merged(request, env, pathname) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const { pathname } = new URL(request.url);
     const where = routeOf(pathname);
-    if (where === "news") return toNews(request, env);
+    if (where === "news") return cachedNews(request, env, ctx);
     if (where === "merged") return merged(request, env, pathname);
     return toPages(request);
   },
