@@ -25,11 +25,11 @@ const PAGES_API = new Set(["/api/benchmark.json", "/api/latest-frontier.json", "
 /** Built by the Worker from both origins. */
 const MERGED = new Set(["/sitemap.xml", "/sitemap-tools.xml", "/sitemap-news.xml", "/robots.txt", "/llms.txt"]);
 
-/** Chinese editions belong to news; assets, APIs, tools and English-only concepts keep their origins. */
+/** Chinese editions belong to news, the concept pages included (news-e-accs serves /zh/<concept>); assets, APIs and tools keep their origins. */
 const CHINESE_SECTIONS = new Set([
   "all", "search-busy", "items", "hot", "story", "daily", "weekly", "monthly", "topics", "about",
   "terms", "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "subscribe",
-  "codex-reset", "chronicle", "products",
+  "codex-reset", "chronicle", "products", "what-is-eacc", "eacc-vs-dacc", "eacc-glossary",
 ]);
 
 /** @returns {"news" | "pages" | "merged"} */
