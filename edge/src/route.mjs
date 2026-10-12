@@ -7,6 +7,8 @@
 const NEWS_SECTIONS = [
   "all", "search-busy", "items", "hot", "story", "daily", "weekly", "monthly", "topics", "about", "terms",
   "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "admin", "subscribe", "codex-reset", "chronicle", "products",
+  // Acceleration indices (news-e-accs modules/indices).
+  "index",
   // The e/acc concept pages, moved to the news site with their URLs and text (news-e-accs industry/concepts.ts).
   // Their generated HTML stays on Pages, out of the sitemap, so taking these three out again rolls back.
   "what-is-eacc", "eacc-vs-dacc", "eacc-glossary",
@@ -29,7 +31,7 @@ const MERGED = new Set(["/sitemap.xml", "/sitemap-tools.xml", "/sitemap-news.xml
 const CHINESE_SECTIONS = new Set([
   "all", "search-busy", "items", "hot", "story", "daily", "weekly", "monthly", "topics", "about",
   "terms", "privacy", "changelog", "feedback", "more", "starred", "agent", "leaderboard", "subscribe",
-  "codex-reset", "chronicle", "products", "what-is-eacc", "eacc-vs-dacc", "eacc-glossary",
+  "codex-reset", "chronicle", "products", "index", "what-is-eacc", "eacc-vs-dacc", "eacc-glossary",
 ]);
 
 /** @returns {"news" | "pages" | "merged"} */

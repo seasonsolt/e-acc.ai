@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { routeOf } from '../edge/src/route.mjs';
 
 test('Chinese news editions preserve English news and Pages ownership', () => {
-  for (const path of ['/zh', '/zh/', '/zh/all', '/zh/items/example', '/zh/story/example', '/zh/daily/2026-10-10', '/zh/topics/openai/page/2', '/zh/leaderboard', '/zh/subscribe', '/zh/what-is-eacc', '/zh/eacc-vs-dacc', '/zh/eacc-glossary']) {
+  for (const path of ['/zh', '/zh/', '/zh/all', '/zh/items/example', '/zh/story/example', '/zh/daily/2026-10-10', '/zh/topics/openai/page/2', '/zh/leaderboard', '/zh/index/cost-of-intelligence', '/zh/subscribe', '/zh/what-is-eacc', '/zh/eacc-vs-dacc', '/zh/eacc-glossary']) {
     assert.equal(routeOf(path), 'news', path);
   }
   for (const path of ['/_.data', '/zh.data', '/zh/_.data', '/zh/all.data', '/zh/items/example.data', '/what-is-eacc.data']) {

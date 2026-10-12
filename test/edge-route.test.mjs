@@ -39,6 +39,7 @@ test("the root and the news site's own paths go to the news site", () => {
   for (const path of [
     "/", "/daily", "/daily/2026-10-01", "/items/abc123", "/hot", "/topics/openai", "/subscribe", "/admin/login",
     "/chronicle", "/chronicle.data", "/products", "/products/", "/products.data",
+    "/index/cost-of-intelligence", "/index/cost-of-intelligence.data", "/api/site/indices/cost-of-intelligence.csv",
     "/assets/entry-123.js", "/media/hero-16x9.mp4", "/media/fonts/InstrumentSerif-Italic.woff2",
     "/_root.data", "/daily.data", "/__manifest", "/api/site/timeline", "/api/v1/items", "/api/mcp",
     "/api/site/newsletter/subscribe", "/feed/picks.xml", "/feed/all.xml", "/og/pages/about.png", "/favicon.ico",
