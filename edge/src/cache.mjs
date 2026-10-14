@@ -1,14 +1,32 @@
 import { routeOf } from "./route.mjs";
 
+// The cache key is the URL only. A request carrying a session neither reads nor fills it, whatever the path.
+const SESSION_COOKIES = new Set(["aihot_admin", "aihot_oauth_state", "CF_Authorization"]);
+
+function hasSessionCookie(cookie) {
+  if (!cookie) return false;
+  return cookie.split(";").some((part) => SESSION_COOKIES.has(part.split("=", 1)[0].trim()));
+}
+
+/** The rest of /api and the reader's own pages, including /zh/ editions and React Router .data requests. */
+function isPrivatePath(pathname) {
+  const page = pathname.endsWith(".data") ? pathname.slice(0, -5) : pathname;
+  const paths = page.startsWith("/zh/") ? [page, page.slice(3)] : [page];
+  return paths.some((path) => ["/api", "/admin", "/starred", "/feedback"]
+    .some((prefix) => path === prefix || path.startsWith(`${prefix}/`)));
+}
+
 /** Anonymous reads of the news site's public APIs, images, pages and Router data can use the edge cache. */
 export function isCacheEligible(request) {
   if ((request.method !== "GET" && request.method !== "HEAD") || request.headers.has("authorization")) return false;
+  if (hasSessionCookie(request.headers.get("cookie"))) return false;
   const { pathname } = new URL(request.url);
   if (routeOf(pathname) !== "news") return false;
   if (pathname.startsWith("/api/site/") || pathname.startsWith("/api/img-proxy") || pathname.startsWith("/og/")) return true;
-  // Apply the page exclusions to Router data too, including /admin.data and /zh/admin/runs.data.
+  if (isPrivatePath(pathname)) return false;
+  // Apply the same exclusions to Router data, including /feed/picks.data and /.well-known/x.data.
   const page = pathname.endsWith(".data") ? pathname.slice(0, -5) : pathname;
-  if (["/admin", "/zh/admin", "/api", "/feed", "/sitemaps", "/assets", "/media", "/.well-known"]
+  if (["/feed", "/sitemaps", "/assets", "/media", "/.well-known"]
     .some((prefix) => page === prefix || page.startsWith(`${prefix}/`))) return false;
   if (page.startsWith("/rss") || page === "/atom.xml" || page === "/__manifest" || page.startsWith("/contact")) return false;
   return true;
