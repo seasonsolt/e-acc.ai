@@ -17,7 +17,7 @@ const NEWS_SECTIONS = [
 ];
 
 const NEWS_EXACT = new Set([
-  "/", "/__manifest", "/rss", "/rss.xml", "/atom.xml", "/openapi-v1.json",
+  "/", "/__manifest", "/rss", "/rss.xml", "/atom.xml", "/openapi-v1.json", "/llms-full.txt",
   "/favicon.ico", "/icon.png", "/icon-192.png", "/apple-icon.png", "/logo.svg", "/manifest.webmanifest",
 ]);
 
