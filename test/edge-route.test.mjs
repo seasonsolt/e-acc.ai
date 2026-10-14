@@ -38,6 +38,7 @@ test("the e/acc concept pages go to the news site at their original addresses", 
 test("the root and the news site's own paths go to the news site", () => {
   for (const path of [
     "/", "/daily", "/daily/2026-10-01", "/items/abc123", "/hot", "/topics/openai", "/subscribe", "/admin/login",
+    "/llms-full.txt",
     "/chronicle", "/chronicle.data", "/products", "/products/", "/products.data",
     "/index/cost-of-intelligence", "/index/cost-of-intelligence.data", "/api/site/indices/cost-of-intelligence.csv",
     "/assets/entry-123.js", "/media/hero-16x9.mp4", "/media/fonts/InstrumentSerif-Italic.woff2",
