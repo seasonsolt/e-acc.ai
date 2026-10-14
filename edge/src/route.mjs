@@ -19,8 +19,6 @@ const NEWS_SECTIONS = [
 const NEWS_EXACT = new Set([
   "/", "/__manifest", "/rss", "/rss.xml", "/atom.xml", "/openapi-v1.json", "/llms-full.txt",
   "/favicon.ico", "/icon.png", "/icon-192.png", "/apple-icon.png", "/logo.svg", "/manifest.webmanifest",
-  // Full LLM text lives only on the news site. /llms.txt stays merged with this site's tools guide.
-  "/llms-full.txt",
 ]);
 
 /** This site's own JSON endpoints under /api/; the rest of /api/ is the news site's API. */

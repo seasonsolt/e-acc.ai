@@ -32,10 +32,10 @@ function mockEdge(t, respond = () => new Response("news", { headers: PUBLIC })) 
   return { matches, puts, pending, upstream, ctx: { waitUntil(promise) { pending.push(promise); } } };
 }
 
-test("GET and HEAD public news images, pages and Router data stay eligible with ordinary cookies", () => {
+test("GET and HEAD public news APIs, images, pages and Router data stay eligible with ordinary cookies", () => {
   for (const method of ["GET", "HEAD"]) {
     for (const path of [
-      "/og/site.png",
+      "/api/site/hot?lang=en", "/api/img-proxy?u=https%3A%2F%2Fexample.com%2Favatar&sig=a%2Bb", "/og/site.png",
       "/", "/hot", "/zh/hot", "/hot.data?_routes=routes/hot", "/_root.data", "/zh/hot.data",
       "/items/abc", "/leaderboard/category/coding", "/chronicle?at=2020-01-01", "/llms-full.txt",
     ]) {
@@ -69,7 +69,7 @@ test("excluded news paths, Pages, merged files, other methods and Authorization 
   for (const path of [
     "/admin", "/admin/", "/admin.data", "/admin/runs.data", "/zh/admin", "/zh/admin.data", "/zh/admin/runs.data",
     "/api/admin/x", "/api/ingest/x", "/api/mcp", "/api/mcp.data", "/api/timeline.json", "/api/site",
-    "/api/site/hot", "/api/site/hot?lang=en", "/api/site/hot.data", "/api/img-proxy", "/api/img-proxy?u=1", "/zh/api.data",
+    "/zh/api.data",
     "/starred", "/starred/", "/starred/x", "/starred.data", "/starred/x.data", "/zh/starred", "/zh/starred/", "/zh/starred.data", "/zh/starred/x.data",
     "/feedback", "/feedback/", "/feedback/x", "/feedback.data", "/zh/feedback", "/zh/feedback.data", "/zh/feedback/x.data",
     "/feed", "/feed/picks.xml", "/feed/picks.data", "/rss", "/rss.xml", "/rss.xml.data", "/rss-other.data", "/atom.xml", "/atom.xml.data",
@@ -136,7 +136,7 @@ test("non-200, Set-Cookie and variation beyond Accept-Encoding are not stored", 
 test("a public GET is a MISS then a HIT with origin headers and forwarding preserved", async (t) => {
   const headers = { ...PUBLIC, "content-type": "application/json", vary: "Accept-Encoding", etag: '"news-v1"' };
   const edge = mockEdge(t, () => new Response('{"items":[]}', { headers }));
-  const url = `${SITE}/hot?lang=en&at=100&sig=a%2Bb+%2F&at=101`;
+  const url = `${SITE}/api/site/hot?lang=en&at=100&sig=a%2Bb+%2F&at=101`;
   const request = new Request(url, { headers: { cookie: "session=admin", "cf-connecting-ip": "192.0.2.1", "x-eacc-edge": "untrusted" } });
   const first = await worker.fetch(request, ENV, edge.ctx);
   assert.equal(first.headers.get("x-eacc-edge-cache"), "MISS");
@@ -174,8 +174,8 @@ test("a public GET is a MISS then a HIT with origin headers and forwarding prese
 test("query values, ordering and escaping keep distinct cache entries", async (t) => {
   const edge = mockEdge(t, (url) => new Response(url.search, { headers: PUBLIC }));
   const paths = [
-    "/hot?lang=en&at=1", "/hot?lang=zh&at=1", "/hot?lang=en&at=2", "/hot?at=1&lang=en",
-    "/og/site.png?u=%2Favatar&sig=a+b", "/og/site.png?u=%2Favatar&sig=a%20b", "/og/site.png?u=%2favatar&sig=a+b",
+    "/api/site/hot?lang=en&at=1", "/api/site/hot?lang=zh&at=1", "/api/site/hot?lang=en&at=2", "/api/site/hot?at=1&lang=en",
+    "/api/img-proxy?u=%2Favatar&sig=a+b", "/api/img-proxy?u=%2Favatar&sig=a%20b", "/api/img-proxy?u=%2favatar&sig=a+b",
   ];
   for (const path of paths) {
     const response = await worker.fetch(new Request(`${SITE}${path}`), ENV, edge.ctx);
@@ -252,7 +252,7 @@ test("a cold HEAD stays a HEAD at the origin and cannot poison the shared GET en
   assert.ok(edge.matches.every((key) => key.method === "GET"));
 });
 
-test("eligible but uncacheable HTML and data responses remain MISSes with their original status and headers", async (t) => {
+test("eligible but uncacheable API, HTML and data responses remain MISSes with their original status and headers", async (t) => {
   const edge = mockEdge(t, (url) => {
     const kind = url.searchParams.get("kind");
     if (kind === "redirect") return new Response(null, { status: 302, headers: { ...PUBLIC, location: "/hot" } });
@@ -265,7 +265,7 @@ test("eligible but uncacheable HTML and data responses remain MISSes with their 
     if (kind === "private") headers["cache-control"] = "private, no-store";
     return new Response("news", { headers });
   });
-  for (const path of ["/hot", "/hot.data"]) {
+  for (const path of ["/api/site/hot", "/hot", "/hot.data"]) {
     for (const kind of ["redirect", "permanent", "missing", "cookie", "vary", "ttl", "private"]) {
       for (let i = 0; i < 2; i++) {
         const response = await worker.fetch(new Request(`${SITE}${path}?kind=${kind}`), ENV, edge.ctx);
@@ -277,15 +277,15 @@ test("eligible but uncacheable HTML and data responses remain MISSes with their 
       }
     }
   }
-  assert.equal(edge.upstream.mock.callCount(), 28);
+  assert.equal(edge.upstream.mock.callCount(), 42);
   assert.equal(edge.puts.length, 0);
   assert.equal(edge.pending.length, 0);
 });
 
-test("admin, api, starred, feedback, non-page endpoints, POSTs and Authorization never touch the cache", async (t) => {
+test("admin, private APIs, starred, feedback, non-page endpoints, POSTs and Authorization never touch the cache", async (t) => {
   const edge = mockEdge(t);
   const requests = [
-    ...["/admin", "/admin/runs.data", "/zh/admin/runs.data", "/api/admin/x", "/api/site/hot", "/api/img-proxy?u=1", "/api/ingest/x", "/api/mcp", "/starred", "/starred.data", "/zh/starred", "/zh/starred/x.data", "/feedback", "/feedback.data", "/zh/feedback", "/zh/feedback/x.data", "/feed/picks.xml", "/rss.xml", "/assets/x.js", "/media/a.webp", "/sitemaps/x.xml", "/__manifest", "/contact"].map((path) => new Request(`${SITE}${path}`)),
+    ...["/admin", "/admin/runs.data", "/zh/admin/runs.data", "/api/admin/x", "/api/ingest/x", "/api/mcp", "/starred", "/starred.data", "/zh/starred", "/zh/starred/x.data", "/feedback", "/feedback.data", "/zh/feedback", "/zh/feedback/x.data", "/feed/picks.xml", "/rss.xml", "/assets/x.js", "/media/a.webp", "/sitemaps/x.xml", "/__manifest", "/contact"].map((path) => new Request(`${SITE}${path}`)),
     new Request(`${SITE}/hot`, { method: "POST", body: "payload" }),
     new Request(`${SITE}/api/site/hot`, { method: "POST", body: "payload" }),
     new Request(`${SITE}/hot`, { headers: { authorization: "Bearer token" } }),
@@ -351,7 +351,7 @@ test("public HTML with must-revalidate is a MISS then a HIT with the origin's Ca
 
 test("a HIT restores the origin's Cache-Control after the zone rewrites max-age", async (t) => {
   const edge = mockEdge(t, () => new Response("hot", { headers: { "cache-control": "public, max-age=30, s-maxage=30" } }));
-  const url = `${SITE}/hot?lang=en`;
+  const url = `${SITE}/api/site/hot?lang=en`;
   await worker.fetch(new Request(url), ENV, edge.ctx);
   await Promise.all(edge.pending);
   // Cloudflare's Browser Cache TTL raises max-age on the cached copy.
@@ -409,10 +409,10 @@ test("a session response is not stored for a later anonymous reader", async (t) 
   assert.equal(edge.puts.length, 1);
 });
 
-test("api, admin, starred and feedback bypass the cache for GET and HEAD, including zh and data routes", async (t) => {
+test("private APIs, admin, starred and feedback bypass the cache for GET and HEAD, including zh and data routes", async (t) => {
   const edge = mockEdge(t);
   const paths = [
-    "/api/site/hot?lang=en", "/api/img-proxy?u=1", "/api/v1/items", "/zh/api.data",
+    "/api/v1/items", "/api/mcp", "/zh/api.data",
     "/admin", "/admin/runs.data", "/zh/admin/runs.data",
     "/starred", "/starred.data", "/zh/starred", "/zh/starred/x.data",
     "/feedback", "/feedback/", "/feedback.data", "/zh/feedback", "/zh/feedback/x.data",
