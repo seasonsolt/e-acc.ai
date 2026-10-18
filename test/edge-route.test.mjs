@@ -5,6 +5,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 import { routeOf } from "../edge/src/route.mjs";
+import worker from "../edge/src/index.mjs";
 
 const SITE_DIR = join(import.meta.dirname, "..", "site");
 const MERGED = ["/sitemap.xml", "/robots.txt", "/llms.txt"];
@@ -55,4 +56,19 @@ test("shared names stay with this site or are merged", () => {
   assert.equal(routeOf("/fonts/x.woff2"), "pages");
   for (const path of MERGED) assert.equal(routeOf(path), "merged", path);
   assert.equal(routeOf("/some-future-product"), "pages", "unknown paths default to this site");
+});
+
+test("robots.txt lets crawlers fetch the index's Dataset download but not the rest of the news API", async (t) => {
+  const fetch = t.mock.method(globalThis, "fetch", () => { throw new Error("robots.txt is answered at the edge"); });
+  const response = await worker.fetch(new Request("https://e-acc.ai/robots.txt"));
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type"), /text\/plain/);
+  const lines = (await response.text()).split("\n");
+  const allow = lines.indexOf("Allow: /api/site/indices/cost-of-intelligence.csv");
+  const disallow = lines.indexOf("Disallow: /api/site/");
+  assert.ok(allow > 0, "the CSV is allowed");
+  // First-match crawlers read top-down, so the narrower Allow must come before the Disallow it carves out of.
+  assert.ok(disallow > allow, "the Allow precedes Disallow: /api/site/");
+  assert.ok(lines.includes("Sitemap: https://e-acc.ai/sitemap.xml"));
+  assert.equal(fetch.mock.callCount(), 0);
 });
