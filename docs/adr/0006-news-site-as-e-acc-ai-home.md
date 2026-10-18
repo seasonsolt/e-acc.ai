@@ -38,3 +38,9 @@ moved to the news site with their URLs, titles, English text and structured data
 (news-e-accs `industry/concepts.ts`). Their generators and HTML stay here as the rollback copy, out of
 this site's sitemap; removing the three names from `NEWS_SECTIONS` and redeploying the Worker restores
 them. Delete them here once the pages hold their rankings on the news site.
+
+## Legacy tools cleanup (2026-10-18)
+
+This cleanup removes the former configuration generator, its public registry and assets, and its sitemap and navigation entries. The existing Pages `404.html` handles its removed clean and `.html` URLs; no dedicated Worker route existed. There is no backend, database, job, setting or environment state to migrate.
+
+The static pages now link to the news site's `/subscribe` daily briefing instead of posting to the former Buttondown weekly list. Publish the static Pages build and the matching news navigation change separately. External subscription lists and subscriber records are not modified.

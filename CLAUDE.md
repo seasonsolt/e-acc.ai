@@ -12,7 +12,7 @@ site and everything else to Pages.
 - `npm run build` — regenerate all pages + sitemap from `site/data/*.json` (`gen/build.mjs`)
 - `npm run verify` — full-site contract tests: data schemas, per-page TDH, canonicals,
   cross-page link graph, sitemap consistency (`site/verify.mjs`)
-- `npm test` — unit tests for the pure modules in `site/lib/` (calculator math, coding-plan config rendering)
+- `npm test` — unit tests for the pure modules in `site/lib/` (calculator math)
   and the edge routing table (`edge/src/route.mjs`: every Pages file must stay on Pages)
 - `cd edge && cf deploy --secrets-file <file with EDGE_SECRET>` — deploy the edge Worker
 - `node gen/indexnow.mjs` — push sitemap URLs to IndexNow (Bing/Yandex) after deploys

@@ -258,61 +258,11 @@ main {
   margin-bottom: var(--space-3);
 }
 
-/* ── subscribe prompts ────────────────────────────────────────────────── */
-.subscribe-inline,
-.subscribe-main {
-  max-width: 640px;
-}
 .prompt-label {
   display: block;
   color: var(--phosphor);
   margin-bottom: var(--space-1);
   font-weight: 700;
-}
-.prompt-row {
-  display: flex;
-  gap: 0;
-}
-.prompt-row input {
-  flex: 1;
-  min-width: 0;
-  font: inherit;
-  color: var(--phosphor-bright);
-  background: var(--bg-input);
-  border: 1px solid var(--phosphor-dim);
-  border-right: 0;
-  border-radius: var(--radius) 0 0 var(--radius);
-  padding: 0.6rem 0.9rem;
-  caret-color: var(--phosphor);
-}
-.prompt-row input::placeholder {
-  color: var(--text-dim);
-  opacity: 1; /* dimmed further and it fails WCAG AA on the dark input bg */
-}
-.prompt-row input:focus {
-  border-color: var(--phosphor);
-  box-shadow: inset 0 0 12px rgba(51, 255, 102, 0.12);
-}
-.prompt-row button {
-  font: inherit;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--black);
-  background: var(--phosphor);
-  border: 1px solid var(--phosphor);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 0.6rem 1.4rem;
-  cursor: pointer;
-  transition: box-shadow 120ms ease, background 120ms ease;
-}
-.prompt-row button:hover {
-  background: var(--phosphor-bright);
-  box-shadow: var(--glow);
-}
-.prompt-hint {
-  font-size: var(--fs-small);
-  color: var(--text-dim);
-  margin-top: var(--space-1);
 }
 
 /* ── panels ───────────────────────────────────────────────────────────── */
@@ -530,17 +480,6 @@ main {
   .log-date {
     order: -1;
   }
-  .prompt-row {
-    flex-direction: column;
-  }
-  .prompt-row input {
-    border-right: 1px solid var(--phosphor-dim);
-    border-radius: var(--radius) var(--radius) 0 0;
-  }
-  .prompt-row button {
-    border-radius: 0 0 var(--radius) var(--radius);
-    padding: 0.75rem;
-  }
   .altar {
     padding: var(--space-2);
   }
@@ -756,34 +695,3 @@ echo done
 @media (prefers-reduced-motion: reduce) {
   .bench-series, .bench-series circle { transition: none; }
 }
-
-/* ── /coding-plan (zh-CN product page) ─────────────────────────────── */
-.cp-row select {
-  background: transparent;
-  color: inherit;
-  border: 1px solid currentColor;
-  font: inherit;
-  padding: 0.3rem 0.5rem;
-}
-.cp-output { margin-top: 1rem; }
-.cp-steps, .cp-warn { padding-left: 1.4rem; line-height: 1.7; }
-.cp-file { margin: 1rem 0 0.3rem; opacity: 0.75; }
-.cp-code {
-  overflow-x: auto;
-  padding: 0.9rem 1rem;
-  border: 1px solid currentColor;
-  white-space: pre;
-}
-.cp-copy {
-  margin-top: 0.5rem;
-  background: transparent;
-  color: inherit;
-  border: 1px solid currentColor;
-  font: inherit;
-  padding: 0.25rem 0.8rem;
-  cursor: pointer;
-}
-.cp-sub { margin-top: 1.2rem; }
-.cp-source, .cp-muted { opacity: 0.75; font-size: 0.9em; }
-.cp-source { overflow-wrap: anywhere; }
-.cp-table code { overflow-wrap: anywhere; }

@@ -13,20 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Newsletter form handling
-    const form = document.querySelector('.newsletter-form');
-    if (form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = form.querySelector('input[type="email"]').value;
-            alert('感谢您的订阅！您已成为数字祭祀的一部分。');
-            form.reset();
-            
-            // Increment the data counter
-            incrementCounter();
-        });
-    }
-
     // Parallax effect on scroll
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
@@ -138,16 +124,6 @@ function animateCounter() {
     }
     
     requestAnimationFrame(updateCounter);
-}
-
-// Increment the data counter when form is submitted
-function incrementCounter() {
-    const counter = document.querySelector('.counter');
-    if (!counter) return;
-    
-    const currentValue = parseInt(counter.textContent.replace(/,/g, ''));
-    const newValue = currentValue + Math.floor(Math.random() * 1000) + 1;
-    counter.textContent = newValue.toLocaleString();
 }
 
 // Add typing effect to manifesto text

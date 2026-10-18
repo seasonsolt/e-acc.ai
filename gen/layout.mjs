@@ -22,40 +22,18 @@ export const EACC_ENTITY = {
   ],
 };
 
-// `lang` is per page: the free-tool pages are English, SaaS product pages for Chinese
-// developers (e.g. /coding-plan) are zh-CN.
 const SUBSCRIBE_CTA = `      <section class="panel panel-cta" id="subscribe" aria-labelledby="subscribe-title">
         <h2 class="panel-title" id="subscribe-title">
-          <span class="panel-cmd" aria-hidden="true">&gt; subscribe --weekly</span>
-          <span class="panel-name">The weekly e/acc newsletter</span>
+          <span class="panel-cmd" aria-hidden="true">&gt; subscribe --daily</span>
+          <span class="panel-name">The e/acc daily briefing</span>
         </h2>
-        <p class="cta-lead">One email a week: what accelerated.</p>
-        <p class="cta-sub">
-          Frontier releases, price drops, compute buildouts — the week's acceleration in five minutes,
-          sourced and numeric. Free.
-        </p>
-        <form
-          class="subscribe-main"
-          action="https://buttondown.com/api/emails/embed-subscribe/SAC-1988"
-          method="post"
-          target="_blank"
-        >
-          <div class="prompt-row">
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="you@domain.com"
-              autocomplete="email"
-              aria-label="Email address"
-            />
-            <button type="submit">RUN</button>
-          </div>
-        </form>
+        <p class="cta-lead">The day's AI news, in your inbox.</p>
+        <p class="cta-sub">A curated daily briefing with links to the original sources. Free.</p>
+        <p><a href="/subscribe">Subscribe to the daily briefing →</a></p>
       </section>
 `;
 
-export function layout({ slug, title, description, h1Cmd, h1Text, jsonLd, body, headExtra = "", lang = "en", cta = true }) {
+export function layout({ slug, title, description, h1Cmd, h1Text, jsonLd, body, headExtra = "" }) {
   const canonical = slug === "index" ? `${SITE}/` : `${SITE}/${slug}`;
   // nested slugs (pricing/gpt-5-5) load shared assets from the site root
   const depth = slug.split("/").length - 1;
@@ -73,7 +51,7 @@ export function layout({ slug, title, description, h1Cmd, h1Text, jsonLd, body, 
     .join("\n");
 
   return `<!doctype html>
-<html lang="${esc(lang)}">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -122,7 +100,7 @@ ${navLinks(base)}
 ${body}
       </section>
 
-${cta ? SUBSCRIBE_CTA : ""}    </main>
+${SUBSCRIBE_CTA}    </main>
 
     <footer class="site-footer">
       <a href="${base}">home</a>
@@ -130,7 +108,6 @@ ${cta ? SUBSCRIBE_CTA : ""}    </main>
 ${footerLinks(base)}
       <a href="mailto:contact@e-acc.ai">contact@e-acc.ai</a>
     </footer>
-    <script src="${base}guard.js" defer></script>
   </body>
 </html>
 `;

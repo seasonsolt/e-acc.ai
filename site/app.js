@@ -249,22 +249,6 @@
     }
   }
 
-  // ── subscribe forms: soft-fail while the Buttondown account is pending ──
-  function guardPlaceholderForms() {
-    document.querySelectorAll("form[action*='REPLACE_WITH_BUTTONDOWN_USERNAME']").forEach((form) => {
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        let hint = form.querySelector(".prompt-hint");
-        if (!hint) {
-          hint = document.createElement("p");
-          hint.className = "prompt-hint";
-          form.append(hint);
-        }
-        hint.textContent = "// subscriptions open shortly — the altar is still warming up.";
-      });
-    });
-  }
-
   // ── boot ───────────────────────────────────────────────────────────────
   async function loadJSON(path) {
     const res = await fetch(path);
@@ -284,7 +268,6 @@
 
   document.addEventListener("DOMContentLoaded", async () => {
     startCounter(); // runs on fallback rate until metrics load
-    guardPlaceholderForms();
 
     const [timeline, metrics] = await Promise.allSettled([
       loadJSON("./data/timeline.json"),

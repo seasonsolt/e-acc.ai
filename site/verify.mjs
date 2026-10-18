@@ -96,45 +96,6 @@ try {
   fail(`models.json: ${err.message}`);
 }
 
-// coding-plans.json feeds the /coding-plan product (ADR-0005). Every config value must
-// come from the vendor's own docs, and ADR-0001 forbids relays / resellers outright.
-const OFFICIAL_DOC_HOSTS = [
-  "api-docs.deepseek.com", "docs.bigmodel.cn", "platform.minimaxi.com", "platform.kimi.com",
-  "platform.kimi.ai", "help.aliyun.com", "www.volcengine.com",
-];
-const OFFICIAL_API_HOSTS = [
-  "api.deepseek.com", "open.bigmodel.cn", "api.minimax.cn", "api.moonshot.cn",
-  "token-plan.cn-beijing.maas.aliyuncs.com", "ark.cn-beijing.volces.com",
-];
-const hostOf = (url) => { try { return new URL(url).host; } catch { return ""; } };
-try {
-  const cp = JSON.parse(read("data/coding-plans.json"));
-  const ids = new Set();
-  const today = Date.parse(cp.updated);
-  const failuresBefore = failures;
-  (cp.offerings || []).forEach((o, i) => {
-    const at = `coding-plans.json offerings[${i}] (${o.id})`;
-    if (!/^[a-z0-9-]+$/.test(o.id || "") || ids.has(o.id)) fail(`${at}: id must be unique and url-safe`);
-    ids.add(o.id);
-    if (!o.vendor || !o.product) fail(`${at}: missing vendor/product`);
-    if (!["payg", "subscription"].includes(o.billing)) fail(`${at}: billing must be payg|subscription`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(o.verified_at || "")) fail(`${at}: verified_at must be YYYY-MM-DD`);
-    else if (today - Date.parse(o.verified_at) > 35 * 86_400_000) warn(`${at}: verified_at is older than 35 days — re-verify`);
-    const sources = JSON.stringify(o).match(/"(?:source_url|plans_source_url|codex_source_url)":"([^"]+)"/g) || [];
-    for (const s of sources) {
-      const url = s.split('":"')[1].slice(0, -1);
-      if (!OFFICIAL_DOC_HOSTS.includes(hostOf(url))) fail(`${at}: source ${url} is not an official vendor docs host`);
-    }
-    const base = o.claude_code?.env?.ANTHROPIC_BASE_URL;
-    if (!OFFICIAL_API_HOSTS.includes(hostOf(base))) fail(`${at}: ANTHROPIC_BASE_URL ${base} is not an official vendor API host`);
-    if (o.codex && !OFFICIAL_API_HOSTS.includes(hostOf(o.codex.base_url))) fail(`${at}: codex.base_url is not an official vendor API host`);
-    if (/中转|代充|代订阅|拼车|relay|resell/i.test(JSON.stringify(o))) fail(`${at}: mentions a relay/reseller (ADR-0001)`);
-  });
-  if (failures === failuresBefore) ok(`coding-plans.json: ${ids.size} offerings, all endpoints official`);
-} catch (err) {
-  fail(`coding-plans.json: ${err.message}`);
-}
-
 try {
   const b = JSON.parse(read("data/benchmark.json"));
   if (!b.source?.name || !b.source?.homepage || !b.source?.owner) {
@@ -171,7 +132,6 @@ const keywordFor = (file) => {
   if (file === "pricing.html" || file.startsWith("pricing/")) return "pricing";
   if (file === "api.html") return "api";
   if (file === "benchmark.html") return "benchmark";
-  if (file === "coding-plan.html") return "claude code";
   return null;
 };
 
@@ -232,7 +192,7 @@ ok(`pages: ${pages.size} html files pass TDH/canonical/structured-data checks`);
 
 // every top-level page must be reachable from every page's chrome —
 // this is what caught /benchmark being orphaned from the nav
-const NAV_SLUGS = ["what-is-eacc", "timeline", "pricing", "benchmark", "calculator", "coding-plan", "api"];
+const NAV_SLUGS = ["what-is-eacc", "timeline", "pricing", "benchmark", "calculator", "api"];
 for (const [file, html] of pages) {
   for (const slug of NAV_SLUGS) {
     const rel = file.includes("/") ? `\\.\\./${slug}` : `\\./${slug}`;
@@ -259,7 +219,7 @@ for (const [file, html] of pages) {
     }
     // resolve the href relative to the source file's directory
     const srcDir = file.includes("/") ? file.slice(0, file.lastIndexOf("/")) : "";
-    const parts = srcDir ? srcDir.split("/") : [];
+    const parts = !target.startsWith("/") && srcDir ? srcDir.split("/") : [];
     let escaped = false;
     for (const seg of target.split("/")) {
       if (seg === "" || seg === ".") continue;
@@ -284,6 +244,8 @@ for (const [file, html] of pages) {
     }
     // The site root is the news site, served beside this build by the edge Worker (ADR-0006).
     if (rel === "" && hashAt !== 0) continue;
+    // Daily subscriptions are handled by the news site, including double opt-in.
+    if (rel === "subscribe" && routeOf("/subscribe") === "news") continue;
     const targetFile = rel === "" ? file : `${rel}.html`;
     if (!pages.has(targetFile)) {
       fail(`${file}: link "${href}" → ${targetFile} does not exist`);
@@ -311,22 +273,11 @@ try {
   fail(`sitemap.xml: ${err.message}`);
 }
 
-// ── 5. subscribe forms ────────────────────────────────────────────────────
-// SaaS product pages (ADR-0005) are zh-CN and have no Chinese newsletter yet, so they
-// deliberately carry no English e/acc subscribe form.
-const NO_SUBSCRIBE_FORM = new Set(["coding-plan.html"]);
-let placeholderSeen = false;
+// ── 5. daily subscription links ───────────────────────────────────────────
 for (const [file, html] of pages) {
-  const actions = [...html.matchAll(/action="([^"]+)"/g)].map((m) => m[1]);
-  if (actions.length === 0 && !NO_SUBSCRIBE_FORM.has(file)) fail(`${file}: no subscribe form`);
-  for (const action of actions) {
-    if (action.includes("REPLACE_WITH_BUTTONDOWN_USERNAME")) placeholderSeen = true;
-    else if (!action.startsWith("https://buttondown.com/api/emails/embed-subscribe/")) {
-      fail(`${file}: unexpected form action "${action}"`);
-    }
-  }
+  if (!html.includes('href="/subscribe"')) fail(`${file}: no daily subscription link`);
+  if (/buttondown\.com|<form\b/i.test(html)) fail(`${file}: retired subscription form remains`);
 }
-if (placeholderSeen) warn("forms: Buttondown username is still the placeholder — set it before launch");
 
 // ── 6. RSS feed (eacc#2) ─────────────────────────────────────────────────
 try {

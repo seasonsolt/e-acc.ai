@@ -49,4 +49,4 @@ other domain should turn it into revenue.
     200 for every path, robots.txt included, and sure. exposing an indexable login page.
   - New search-driven products go under paths on e-acc.ai, as decided above.
 
-Plan and numbers: `docs/profit-replan-2026-09.md`. First product: `docs/products/coding-plan.md`.
+Plan and numbers: `docs/profit-replan-2026-09.md`.

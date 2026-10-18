@@ -1,3 +1,5 @@
+> Historical draft. The weekly Buttondown signup has been retired in this cleanup; the live subscription entry is `/subscribe` on the news site. This file is not a current sending or publishing instruction.
+
 <!--
 e/acc weekly — issue #001 (inaugural)
 Paste the body below into Buttondown. Pick one subject line. The preview
