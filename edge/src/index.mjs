@@ -98,6 +98,14 @@ export default {
   async fetch(request, env, ctx) {
     const { pathname } = new URL(request.url);
     const where = routeOf(pathname);
+    if (where === "gone") return new Response(request.method === "HEAD" ? null : "This tool has been retired.\n", {
+      status: 410,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "cache-control": "no-store",
+        "x-robots-tag": "noindex",
+      },
+    });
     if (where === "news") return cachedNews(request, env, ctx);
     if (where === "merged") return merged(request, env, pathname);
     return toPages(request);

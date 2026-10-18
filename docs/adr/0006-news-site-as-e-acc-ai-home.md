@@ -41,6 +41,10 @@ them. Delete them here once the pages hold their rankings on the news site.
 
 ## Legacy tools cleanup (2026-10-18)
 
-This cleanup removes the former configuration generator, its public registry and assets, and its sitemap and navigation entries. The existing Pages `404.html` handles its removed clean and `.html` URLs; no dedicated Worker route existed. There is no backend, database, job, setting or environment state to migrate.
+This cleanup removes the former configuration generator, its public registry and assets, and its sitemap and navigation entries. Initially, the existing Pages `404.html` handled its removed clean and `.html` URLs; no dedicated Worker route existed. There is no backend, database, job, setting or environment state to migrate.
 
 The static pages now link to the news site's `/subscribe` daily briefing instead of posting to the former Buttondown weekly list. Publish the static Pages build and the matching news navigation change separately. External subscription lists and subscriber records are not modified.
+
+Production acceptance found that Pages deployment `6dc65ded` (commit `97d54e3`) returned 404 for the deleted files on its `pages.dev` origins, while the custom domain still returned old 200 responses for the clean page and several scripts. Query variants returned 404. Exact URL, prefix and full-zone purges were accepted but did not remove those responses, including subsequent cache MISS responses.
+
+The Worker therefore returns `410 Gone` directly for `/coding-plan`, `/coding-plan.html`, `/coding-plan.js`, `/lib/codingplan.mjs`, `/data/coding-plans.json` and `/guard.js`, including trailing-slash and query variants. These responses use `Cache-Control: no-store` and `X-Robots-Tag: noindex` and never read an origin or the Worker cache. Publish the Worker as well as Pages to complete retirement on the custom domain; rollback restores the previous Worker version. Other tool routes and external subscriber records are unaffected.

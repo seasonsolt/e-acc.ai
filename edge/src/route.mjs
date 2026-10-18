@@ -34,8 +34,16 @@ const CHINESE_SECTIONS = new Set([
   "codex-reset", "chronicle", "products", "index", "what-is-eacc", "eacc-vs-dacc", "eacc-glossary",
 ]);
 
-/** @returns {"news" | "pages" | "merged"} */
+// These deleted Pages files still returned cached 200s on the custom domain after the
+// production publish and accepted zone purges (2026-10-18). Retire them before any origin read.
+const RETIRED = new Set([
+  "/coding-plan", "/coding-plan.html", "/coding-plan.js", "/lib/codingplan.mjs",
+  "/data/coding-plans.json", "/guard.js",
+]);
+
+/** @returns {"news" | "pages" | "merged" | "gone"} */
 export function routeOf(pathname) {
+  if (RETIRED.has(pathname.replace(/\/+$/, ""))) return "gone";
   if (MERGED.has(pathname)) return "merged";
   if (NEWS_EXACT.has(pathname)) return "news";
   if (pathname === "/zh" || pathname === "/zh/" || (pathname.startsWith("/zh/") && CHINESE_SECTIONS.has(pathname.split("/")[2]))) return "news";
