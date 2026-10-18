@@ -77,6 +77,8 @@ async function merged(request, env, pathname) {
       [
         "User-agent: *",
         "Allow: /",
+        // The index page's Dataset JSON-LD points its download (distribution.contentUrl) here.
+        "Allow: /api/site/indices/cost-of-intelligence.csv",
         "Disallow: /api/site/",
         "Disallow: /api/ingest/",
         "Disallow: /admin/",
